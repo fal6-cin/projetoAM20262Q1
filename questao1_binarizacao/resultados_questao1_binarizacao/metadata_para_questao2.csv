@@ -1,0 +1,2 @@
+K_star,H_star,silhouette,objective_W,best_seed,adjusted_rand_index,n_restarts_per_KH,scaling_used_for_clustering
+3,3,0.2100194790970724,208777.14586838943,33337,0.26949786140479093,100,Binarizacao (x>0) + log1p(runs) + StandardScaler

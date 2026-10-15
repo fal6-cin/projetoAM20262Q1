@@ -1,0 +1,3 @@
+Experimento,"Melhor (K*, H*)",Tamanhos dos Clusters,Silhueta Euclidiana,ARI (vs. Spam/Non-spam),Diagnóstico
+Original (StandardScaler puro),"(2, 2)","34 / 4567 (0,74% / 99,26%)",0.6596,-0.00495,Isolamento de 34 outliers da HP Labs; Silhueta inflada artificialmente.
+Revisado (QuantileTransformer uniforme),"(3, 3)",2787 / 1240 / 574,0.1903,0.2925,"Sem microclusters; mapeamento não-paramétrico uniforme [0, 1]."

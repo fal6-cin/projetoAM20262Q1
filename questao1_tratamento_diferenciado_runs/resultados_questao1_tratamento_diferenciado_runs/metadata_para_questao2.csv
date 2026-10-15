@@ -1,0 +1,2 @@
+K_star,H_star,silhouette,objective_W,best_seed,adjusted_rand_index,n_restarts_per_KH,scaling_used_for_clustering
+2,2,0.6537016709751203,244484.99641564031,22116,-0.00494969888751088,100,Tratamento Diferenciado: StandardScaler(freq 0..53) + StandardScaler(log1p(runs 54..56))

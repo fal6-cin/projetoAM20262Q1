@@ -1,0 +1,6 @@
+K* = 3
+H* = 3
+Silhouette = 0.1903169010
+Best objective W = 21926.5323401640
+Best seed = 33087
+Adjusted Rand Index = 0.2925246439

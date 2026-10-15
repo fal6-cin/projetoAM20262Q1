@@ -1,0 +1,2 @@
+K_star,H_star,silhouette,objective_W,best_seed,adjusted_rand_index,n_restarts_per_KH,scaling_used_for_clustering
+2,1,0.2926143500062174,220269.2397940597,21042,0.13630139382974346,100,"Filtragem de Termos de Domínio (hp, hpl, george, lab, labs, 650, 415, 857) + StandardScaler(49 variáveis)"

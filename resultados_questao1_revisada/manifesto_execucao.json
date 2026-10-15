@@ -1,0 +1,12 @@
+{
+  "python": "3.14.7",
+  "numpy": "2.5.3",
+  "pandas": "3.0.6",
+  "sklearn": "1.9.1",
+  "n_restarts": 100,
+  "max_iter": 200,
+  "base_seed": 42,
+  "standard_reutiliza_zip": true,
+  "sha256_dados": "b1ef93de71f97714d3d7d4f58fc9f718da7bbc8ac8a150eff2778616a8097b12",
+  "sha256_algoritmo": "828f26e72045b580e7c909808ca60f6881222c40efa7b1212a7fd76f0a71899c"
+}
