@@ -5,3 +5,4 @@ Nove soluções do ZIP reproduzidas (W e Silhouette); dados e partição vencedo
 Figuras de auditoria e sensibilidade inspecionadas visualmente.
 Arquivos originais extraídos conferidos contra o ZIP por SHA-256; preservados.
 Coluna de duplicatas adicionada ao CSV e ao código após a execução, usando os mesmos 34 IDs.
+
