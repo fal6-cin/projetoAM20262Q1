@@ -1,0 +1,43 @@
+{
+  "semente_cv": 2026,
+  "repeticoes": 30,
+  "folds_externos": 10,
+  "folds_internos": 5,
+  "versoes_alvo": [
+    "y_original",
+    "y_double_kmeans"
+  ],
+  "numero_classificadores": 5,
+  "n_atributos": 57,
+  "media_classificacao": "macro",
+  "observacao_metricas": "Guardar resultados por classe e macro; intervalo de confiança e testes estatísticos serão decididos e documentados na etapa de avaliação.",
+  "curvas_aprendizagem": {
+    "percentuais_treinamento": [
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90,
+      95
+    ],
+    "repeticoes_executadas_no_pacote": 1,
+    "semente": 2026,
+    "amostragem": "divisões complementares estratificadas do conjunto completo; 1 divisão por porcentagem por repetição",
+    "ajuste_hiperparametros": "CV interna estratificada de 5 folds, exclusiva de cada treino",
+    "f1": "macro; treinamento e teste",
+    "observacao": "repetições das curvas são independentes da validação externa 30x10 da letra a"
+  }
+}

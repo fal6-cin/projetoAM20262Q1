@@ -1,0 +1,26 @@
+{
+  "origem_repositorio": "projetoAM20262Q1-main (1)(1).zip",
+  "arquivo_origem": "questao1_log_minmax/resultados_questao1_log_minmax/spambase_com_clusters_log_minmax.csv",
+  "arquivo_copiado": "questao2/dados/spambase_q2.csv",
+  "sha256_csv": "84d4176669d713138b584e354ac0506025a21bae3dc169795ed78c745480eb4a",
+  "n_observacoes": 4601,
+  "n_atributos": 57,
+  "classes_originais": {
+    "0": 2788,
+    "1": 1813
+  },
+  "classes_double_kmeans": {
+    "0": 2619,
+    "1": 265,
+    "2": 1717
+  },
+  "rotulos_questao1_gerados_com": "log1p + MinMaxScaler",
+  "K_estrela": 3,
+  "H_estrela": 3,
+  "semente_vencedora_questao1": 33044,
+  "reinicializacoes_questao1_por_par": 100,
+  "silhouette_q1": 0.12921869569647254,
+  "ari_q1": 0.3911113830756633,
+  "objetivo_W_q1": 2906.230738383621,
+  "nota": "Rótulos obtidos na Questão 1 sobre a base inteira. Atributos do CSV estão na escala original; não aplicar Log1p+MinMax globalmente antes da CV da Questão 2."
+}

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+resultados/*.csv
+resultados/*.json
+resultados/*.png
+!resultados/.gitkeep

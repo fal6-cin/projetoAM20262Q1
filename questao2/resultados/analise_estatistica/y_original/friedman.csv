@@ -1,0 +1,5 @@
+metrica,blocos_repeticoes,classificadores,estatistica_friedman,p_valor_friedman,alpha,significativo,diferenca_critica_nemenyi,interpretacao,alvo
+taxa_erro,30,5,114.51752921535898,7.910351123936315e-24,0.050000000000000044,True,1.1136092236789705,exploratoria: mesmas observacoes reutilizadas nas repeticoes,y_original
+precisao_macro,30,5,115.89333333333343,4.0229225681036426e-24,0.050000000000000044,True,1.1136092236789705,exploratoria: mesmas observacoes reutilizadas nas repeticoes,y_original
+cobertura_macro,30,5,98.24000000000001,2.3305912480348697e-20,0.050000000000000044,True,1.1136092236789705,exploratoria: mesmas observacoes reutilizadas nas repeticoes,y_original
+f_measure_macro,30,5,114.24000000000001,9.066189644938825e-24,0.050000000000000044,True,1.1136092236789705,exploratoria: mesmas observacoes reutilizadas nas repeticoes,y_original

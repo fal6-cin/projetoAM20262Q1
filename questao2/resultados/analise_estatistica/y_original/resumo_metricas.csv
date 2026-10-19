@@ -1,0 +1,21 @@
+modelo,metrica,n_repeticoes,media,desvio_repeticoes,ic95_inferior,ic95_superior,metodo_ic,alvo
+gaussiano,taxa_erro,30,0.15163412870571225,0.0013182687014384495,0.151141879082699,0.1521263783287255,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+gaussiano,precisao_macro,30,0.8524619227498802,0.0012826357194789405,0.8519829787010016,0.8529408667987588,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+gaussiano,cobertura_macro,30,0.8682640803390224,0.0013094750298211194,0.8677751143269556,0.8687530463510891,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+gaussiano,f_measure_macro,30,0.847114941606108,0.0013161857940073305,0.8466234697535119,0.8476064134587041,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+knn,taxa_erro,30,0.06742725329309314,0.002044728283887956,0.06666373920388652,0.06819076738229976,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+knn,precisao_macro,30,0.9321026951078583,0.002147265476552052,0.931300893001665,0.9329044972140516,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+knn,cobertura_macro,30,0.9265975753810319,0.0022800658610546026,0.9257461847963016,0.9274489659657623,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+knn,f_measure_macro,30,0.9289650206858912,0.0021628245257030282,0.9281574087352628,0.9297726326365195,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+parzen,taxa_erro,30,0.057531374768147375,0.0014616569420267606,0.0569855830961595,0.05807716644013525,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+parzen,precisao_macro,30,0.9421997912675579,0.0015327002931149122,0.9416274715722979,0.942772110962818,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+parzen,cobertura_macro,30,0.9372311996290461,0.0015798140614136746,0.9366412873635775,0.9378211118945147,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+parzen,f_measure_macro,30,0.9394307724480764,0.001551538761770185,0.9388514183530133,0.9400101265431394,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+logistica,taxa_erro,30,0.06159569618661387,0.0011712066201605175,0.06115836044723422,0.06203303192599352,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+logistica,precisao_macro,30,0.9356534944549104,0.0012334857956317813,0.9351929032892176,0.9361140856206033,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+logistica,cobertura_macro,30,0.9358855757247885,0.0013820346684848938,0.9353695154983638,0.9364016359512132,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+logistica,f_measure_macro,30,0.9355435964671084,0.0012357435649102374,0.9350821622365115,0.9360050306977052,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+voto,taxa_erro,30,0.05711077053664057,0.0013485532732247106,0.05660721246867324,0.0576143286046079,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+voto,precisao_macro,30,0.943930580172933,0.0012935699827036915,0.9434475532030654,0.9444136071428005,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+voto,cobertura_macro,30,0.9364339868023311,0.0015723642205417159,0.935846856353162,0.9370211172515003,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original
+voto,f_measure_macro,30,0.9397087877423752,0.0014457588394887798,0.9391689325194378,0.9402486429653126,t de Student sobre 30 medias por repeticao; aproximacao descritiva,y_original

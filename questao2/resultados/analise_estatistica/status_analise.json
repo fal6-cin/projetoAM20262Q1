@@ -1,0 +1,27 @@
+{
+  "protocolo": "30x10",
+  "repeticoes": 30,
+  "alvos": [
+    "y_original",
+    "y_double_kmeans"
+  ],
+  "resultados": {
+    "y_original": [
+      "medias_por_repeticao.csv",
+      "resumo_metricas.csv",
+      "friedman.csv",
+      "nemenyi_pares.csv",
+      "ranking_medio.csv",
+      "relatorio_avaliacao.md"
+    ],
+    "y_double_kmeans": [
+      "medias_por_repeticao.csv",
+      "resumo_metricas.csv",
+      "friedman.csv",
+      "nemenyi_pares.csv",
+      "ranking_medio.csv",
+      "relatorio_avaliacao.md"
+    ]
+  },
+  "advertencia": "Blocos de CV repetido compartilham observações; ICs/testes são exploratórios."
+}
