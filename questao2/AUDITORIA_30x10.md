@@ -8,7 +8,7 @@
 - **Base:** 4.601 e-mails e 57 atributos; SHA-256 do arquivo `dados/spambase_q2.csv` coincide com `dados/proveniencia_q1.json`.
 - **Completude:** 10 combinações alvo/modelo × 300 folds = **3.000 avaliações externas**; 10 × 30 × 4.601 = **1.380.300 predições** auditadas.
 - **Auditoria:** reexecução de `python -m questao2.scripts.analisar_resultados --repeticoes 30` confirmou índices de teste, repetições, classes reais e métricas recalculadas. As médias e os IC95 reproduziram exatamente os valores depositados; diferenças nos p-valores de Nemenyi limitaram-se a arredondamentos numéricos próximos da precisão de máquina.
-- **Testes:** Os 56 testes unitários passaram.
+- **Testes:** Os **62 testes automatizados** passaram na auditoria.
 
 ## Médias e intervalos descritivos
 

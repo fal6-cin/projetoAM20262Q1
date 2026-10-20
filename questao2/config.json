@@ -10,7 +10,7 @@
   "numero_classificadores": 5,
   "n_atributos": 57,
   "media_classificacao": "macro",
-  "observacao_metricas": "Guardar resultados por classe e macro; intervalo de confiança e testes estatísticos serão decididos e documentados na etapa de avaliação.",
+  "observacao_metricas": "Resultados por classe e médias macro armazenados; ICs95 descritivos aproximados e Friedman/Nemenyi exploratórios calculados sobre médias por repetição, com ressalva de dependência entre repetições.",
   "curvas_aprendizagem": {
     "percentuais_treinamento": [
       5,
