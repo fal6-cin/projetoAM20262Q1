@@ -2,13 +2,13 @@
 
 **Aprendizagem de Máquina — 2026.2 — CIn/UFPE**  
 **Objeto:** comparar cinco classificadores nas classes originais da Spambase e nos três rótulos obtidos por Double K-means na Questão 1.  
-**Situação:** experimentos 30 × 10-fold completos; métricas e testes estatísticos calculados; curvas de aprendizagem executadas em 19 proporções; 62 testes automatizados aprovados.
+**Situação:** experimentos 30 × 10-fold completos; métricas e testes estatísticos calculados; curvas de aprendizagem executadas em 19 proporções; **67 testes automatizados aprovados** na suíte atual; estudo complementar exploratório de pré-processamento documentado.
 
 > **Interpretação central.** Nas classes originais, voto majoritário (F1 macro de 0,9397) e Bayes Parzen (0,9394) apresentaram praticamente o mesmo desempenho. Nos três clusters, a regressão logística alcançou F1 macro de 0,9827 e taxa de erro de cerca de 0,95%. Resultados sobre os rótulos do Double K-means quantificam sua *reprodução supervisionada*, não a validade externa dos grupos.
 
 ## 1. Objetivos e escopo
 
-A Questão 2` solicita: (a) avaliar cinco classificadores por validação cruzada estratificada repetida **30 × 10-fold**, com ajuste interno por **5 folds** quando necessário; (b) estimar taxa de erro, precisão, cobertura e F-measure com estimativas pontuais e intervalos de confiança; (c) comparar classificadores por Friedman e Nemenyi, em cada métrica; (d) analisar curvas de aprendizagem de F-measure em treino e teste com 5% a 95% de treinamento (passo de 5%).
+A Questão 2 solicita: (a) avaliar cinco classificadores por validação cruzada estratificada repetida **30 × 10-fold**, com ajuste interno por **5 folds** quando necessário; (b) estimar taxa de erro, precisão, cobertura e F-measure com estimativas pontuais e intervalos de confiança; (c) comparar classificadores por Friedman e Nemenyi, em cada métrica; (d) analisar curvas de aprendizagem de F-measure em treino e teste com 5% a 95% de treinamento (passo de 5%).
 
 O trabalho utiliza duas tarefas supervisionadas separadas com os mesmos atributos preditivos, mas diferentes variáveis resposta. Os resultados de uma tarefa **não são comparáveis diretamente como medida de qualidade da outra**.
 
@@ -199,6 +199,16 @@ As métricas completas dos 19 pontos constam de `resultados/curvas_aprendizagem/
 - **Bayes gaussiano multivariado:** teve o pior desempenho médio de F1 nas duas tarefas. A limitação pode se relacionar ao ajuste da hipótese gaussiana em dados heterogêneos e à regularização de matrizes singulares; este experimento, sozinho, **não identifica causalmente** qual desses mecanismos prevalece.
 - **Desbalanceamento:** a classe minoritária dos clusters contém 265 exemplos; por isso macro-F1, precisão e cobertura macro são mais informativas do que apenas acurácia.
 
+### 8.1 Estudo complementar de sensibilidade ao pré-processamento
+
+Como verificação independente dos resultados oficiais, foi realizada **uma repetição de dez folds estratificados** para comparar três configurações dos atributos: dados originais sem transformação, MinMaxScaler isolado e Log1p seguido de MinMaxScaler. Os cinco classificadores foram avaliados com os mesmos conjuntos de teste dentro de cada alvo; nos quatro modelos-base, a seleção de hiperparâmetros ocorreu por cinco folds internos. Foram **300 avaliações externas** na análise complementar, que não se confundem com os **3.000 folds oficiais**.
+
+A combinação **Log1p + MinMaxScaler apresentou o maior F1 macro médio nas dez combinações de classificador e variável resposta** consideradas. A análise posterior ampliou a grade de larguras de janela do Parzen com apenas MinMaxScaler, eliminando a restrição de selecionar necessariamente o valor mínimo da grade anterior. Para a regressão logística sem pré-processamento, o limite de iterações foi aumentado, com redução dos avisos de não convergência, mas **sem eliminá-los por completo**. Os votos majoritários correspondentes foram recalculados.
+
+Esses achados oferecem **apoio empírico exploratório** à escolha de Log1p + MinMaxScaler para a etapa supervisionada, além de sua justificativa teórica para distribuições assimétricas e métodos dependentes de distâncias. Não demonstram superioridade universal ou estatisticamente confirmatória, pois houve apenas uma repetição de dez folds e persistiram limitações na otimização da logística em escala bruta.
+
+A avaliação principal **30 × 10**, seus intervalos de confiança, os testes Friedman/Nemenyi e as curvas de aprendizagem **não foram refeitos nem substituídos**. A discussão detalhada está em [ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md](ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md), e o protocolo com seu diagnóstico histórico está em [COMPARACAO_PREPROCESSAMENTO.md](COMPARACAO_PREPROCESSAMENTO.md).
+
 **Limitações do estudo:**
 
 1. **Dependência nas repetições:** os testes 30 × 10-fold reutilizam os mesmos 4.601 e-mails. ICs t e testes Friedman/Nemenyi fornecem resumos/exploração de variação entre partições, não inferência rigorosa para amostras futuras independentes.
@@ -213,7 +223,7 @@ A Questão 2 foi concluída segundo o protocolo experimental especificado: **cin
 
 Na tarefa original de spam/não spam, **voto majoritário (F1 macro 0,9397)** e **Bayes Parzen (0,9394)** alcançaram os melhores resultados, sem diferença detectada entre eles no Nemenyi exploratório (p≈0,9883). Para os rótulos do Double K-means com K*=H*=3, **regressão logística (F1 macro 0,9827)** apresentou maior desempenho numérico e erro de aproximadamente 0,95%. A facilidade de reproduzir clusters não substitui uma avaliação da qualidade do agrupamento da Questão 1.
 
-Os resultados evidenciam a utilidade do controle de pré-processamento, do ajuste aninhado de hiperparâmetros, de métricas macro e da distinção entre avaliação preditiva e avaliação de agrupamento. **Todos os resultados e ressalvas devem ser apresentados conjuntamente**, sem transformar pequenas diferenças numéricas em conclusões de significância indevida.
+O estudo complementar de sensibilidade forneceu evidência exploratória favorável à transformação Log1p + MinMax, sem caracterizar superioridade estatística definitiva. Os resultados também evidenciam a utilidade do controle de pré-processamento, do ajuste aninhado de hiperparâmetros, de métricas macro e da distinção entre avaliação preditiva e avaliação de agrupamento. **Todos os resultados e ressalvas devem ser apresentados conjuntamente**, sem transformar pequenas diferenças numéricas em conclusões de significância indevida.
 
 ## 10. Reprodutibilidade e localização dos arquivos
 
@@ -236,4 +246,5 @@ python -m questao2.scripts.rodar_curvas --repeticoes 1 --apenas-consolidar
 | Resultados de curvas (190 linhas) | `resultados/curvas_aprendizagem/curvas_pontos_consolidados.csv` |
 | Figuras das curvas (14 gráficos) | `resultados/curvas_aprendizagem/graficos/` |
 | Auditorias auxiliares | `AUDITORIA_30x10.md`; `RELATORIO_CURVAS_APRENDIZAGEM.md` |
+| Estudo complementar e seus resultados | `COMPARACAO_PREPROCESSAMENTO.md`; `ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md`; `resultados/comparacao_preprocessamento/` |
 | Implementação e testes | `src/`, `scripts/`, `tests/` |

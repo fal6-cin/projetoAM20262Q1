@@ -34,6 +34,8 @@ questao2/
 ├── RELATORIO_CURVAS_APRENDIZAGEM.md
 ├── AUDITORIA_30x10.md
 ├── ESTADO_ETAPA3.md
+├── COMPARACAO_PREPROCESSAMENTO.md
+├── ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md
 ├── config.json
 ├── requirements.txt
 ├── dados/
@@ -48,6 +50,7 @@ questao2/
 │   ├── avaliacao_parzen.py
 │   ├── avaliacao_logistica.py
 │   ├── avaliacao_voto.py
+│   ├── comparacao_preprocessamento.py
 │   └── modelos/
 │       ├── bayes_gaussiano.py
 │       ├── bayes_knn.py
@@ -65,6 +68,7 @@ questao2/
 │   ├── executar_estudo.py
 │   ├── status_estudo.py
 │   ├── analisar_resultados.py
+│   ├── comparar_preprocessamento.py
 │   └── rodar_curvas.py
 ├── tests/                 # testes dos classificadores, da CV e dos resultados
 ├── resultados/
@@ -75,6 +79,7 @@ questao2/
 │   ├── voto/
 │   ├── execucoes/
 │   ├── analise_estatistica/
+│   ├── comparacao_preprocessamento/
 │   └── curvas_aprendizagem/
 └── questao2_experimentos.ipynb
 ```
@@ -124,6 +129,8 @@ Para **cada uma** das variáveis resposta (`y_original`, `y_double_kmeans`):
 - Etapa 3: **concluída e auditada** — 30 × 10 avaliações externas por classificador e variável resposta, métricas, ICs descritivos, Friedman/Nemenyi exploratórios.
 - Etapa 4: **concluída** — curvas de aprendizagem de 5% a 95%, F1 macro de treino e teste, CSVs, 14 gráficos e discussão.
 - Relatório final: **concluído** — `RELATORIO_FINAL_QUESTAO2.md`.
+- Estudo complementar de pré-processamento: **concluído como análise exploratória**, incluindo as duas reavaliações localizadas e as limitações documentadas.
+- Testes automatizados: **67 casos executados e aprovados** nesta versão (os 62 da auditoria antiga são um marco histórico).
 - Apresentação da disciplina: **pendente**.
 
 
@@ -534,3 +541,25 @@ mais de um sorteio, cada ponto apresenta média e desvio padrão dos F1.
 O documento `RELATORIO_CURVAS_APRENDIZAGEM.md` descreve o protocolo e os
 resultados executados. Os gráficos não substituem os testes Friedman/Nemenyi
 calculados para a etapa anterior.
+
+## Análise complementar de pré-processamento
+
+Foi realizado um estudo exploratório de sensibilidade à preparação dos 57 atributos da Spambase, comparando **dados sem pré-processamento**, **apenas MinMaxScaler** e **Log1p seguido de MinMaxScaler**. Foram utilizados os mesmos dez folds externos estratificados para cada variável resposta e as mesmas divisões entre os cinco classificadores; os hiperparâmetros dos quatro modelos-base foram escolhidos exclusivamente por CV interna de cinco folds.
+
+A comparação totalizou **300 avaliações externas** (2 alvos × 3 estratégias × 5 classificadores × 10 folds). A estratégia Log1p + MinMax apresentou o maior F1 macro médio nas dez combinações de classificador e alvo avaliadas, mas o estudo é **exploratório** e não constitui prova de superioridade estatística definitiva.
+
+Dois cenários foram reavaliados após a primeira rodada:
+
+- **Regressão logística sem pré-processamento:** `max_iter=20000` e `tol=1e-6`; os avisos de não convergência diminuíram (311→171 para as classes originais; 510→308 para os clusters), mas persistiram.
+- **Parzen com apenas MinMaxScaler:** a grade de `h` foi ampliada para incluir valores abaixo de 0,04; em nenhum fold a largura selecionada ficou no novo limite inferior de 0,005.
+
+O voto majoritário foi recalculado nos cenários afetados. Os resultados oficiais **30 × 10**, os arquivos de avaliação principal e as curvas de aprendizagem permaneceram inalterados.
+
+Para reproduzir ou consolidar a análise a partir da raiz do repositório:
+
+```bash
+python -m questao2.scripts.comparar_preprocessamento --repeticoes 1
+python -m questao2.scripts.comparar_preprocessamento --repeticoes 1 --apenas-consolidar
+```
+
+Documentos: [protocolo e diagnóstico histórico](COMPARACAO_PREPROCESSAMENTO.md) e [análise completa revisada](ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md). CSVs e registros por fold: `resultados/comparacao_preprocessamento/`.
