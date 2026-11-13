@@ -1,5 +1,6 @@
 # Questão 1 — Spambase / Double K-means (AM 2026-2)
 
+> **Notebook unificado:** [questao1_experimentos.ipynb](questao1_experimentos.ipynb) (centraliza todas as 7 estratégias de pré-processamento).  
 > **Relatório técnico consolidado:** [docs/relatorio_questao1_double_kmeans.md](docs/relatorio_questao1_double_kmeans.md).
 
 ## Estrutura
@@ -7,17 +8,27 @@
 ```text
 questao1/
 ├── README.md
-├── src/
-│   └── double_kmeans.py                  # Implementação do algoritmo Double K-means
+├── __init__.py
+├── questao1_experimentos.ipynb           # Notebook unificado (espelho de questao2/questao2_experimentos.ipynb)
 ├── docs/
 │   └── relatorio_questao1_double_kmeans.md
-├── notebooks/
-│   ├── revisada.ipynb                    # Baseline (StandardScaler) + auditoria e sensibilidade
-│   ├── binarizacao.ipynb                 # Frequências binarizadas + log1p(maiúsculas) + StandardScaler
-│   ├── clip_log_standard.ipynb           # Clip 99% + log1p + StandardScaler
-│   ├── filtragem_dominio.ipynb           # Remoção de 8 atributos de domínio + StandardScaler
-│   ├── log_minmax.ipynb                  # log1p + MinMaxScaler (origem dos rótulos oficiais da Q2)
-│   ├── quantile_uniform.ipynb            # QuantileTransformer uniforme
+├── src/
+│   ├── double_kmeans.py                  # Implementação do algoritmo Double K-means
+│   ├── dados.py                          # Leitura do Spambase bruto em ../data/raw/
+│   ├── preprocessamentos.py              # Registro das 7 estratégias de pré-processamento
+│   ├── experimento.py                    # Grade (K,H), reprodução, sanidade, gráficos e exportação
+│   └── auditoria.py                      # Auditoria detalhada de microclusters (baseline revisada)
+├── scripts/
+│   └── rodar_experimentos.py             # CLI para executar, reproduzir ou resumir estratégias
+├── tests/
+│   └── test_questao1_experimentos.py     # Testes automatizados de reprodutibilidade das 7 estratégias
+├── notebooks/                            # Notebooks individuais originais preservados (histórico)
+│   ├── revisada.ipynb
+│   ├── binarizacao.ipynb
+│   ├── clip_log_standard.ipynb
+│   ├── filtragem_dominio.ipynb
+│   ├── log_minmax.ipynb
+│   ├── quantile_uniform.ipynb
 │   └── tratamento_diferenciado_runs.ipynb
 └── resultados/
     ├── originais/                        # Saídas originais preservadas
@@ -28,6 +39,21 @@ questao1/
     ├── log_minmax/                       # K*=3, H*=3, seed=33044 -> spambase_com_clusters_log_minmax.csv
     ├── quantile_uniform/
     └── tratamento_diferenciado_runs/
+```
+
+## Como Executar e Testar
+
+A partir da **raiz do repositório**:
+
+```powershell
+# Reproduzir e validar todas as 7 estratégias pela CLI
+python -m questao1.scripts.rodar_experimentos --estrategia todas
+
+# Apenas exibir o comparativo consolidado
+python -m questao1.scripts.rodar_experimentos --resumo
+
+# Rodar os testes automatizados da Questão 1
+pytest questao1/tests
 ```
 
 ## Origem dos Dados e Ligação com a Questão 2

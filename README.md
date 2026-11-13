@@ -15,9 +15,12 @@ Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-
 ├── Enunciado do Projeto/
 │   └── Projeto-AM-2026-2.pdf            # Especificação oficial do projeto
 ├── questao1/                            # Co-clustering não supervisionado (ver questao1/README.md)
-│   ├── src/double_kmeans.py             # Implementação única do algoritmo Double K-means
+│   ├── questao1_experimentos.ipynb      # Notebook unificado para as 7 estratégias
+│   ├── src/                             # Double K-means, dados, pré-processamentos, experimento e auditoria
+│   ├── scripts/                         # CLI unificada (rodar_experimentos.py)
+│   ├── tests/                           # Testes automatizados de reprodutibilidade da Q1
 │   ├── docs/                            # Relatório técnico da Questão 1
-│   ├── notebooks/                       # Notebooks (revisada + 6 variações de pré-processamento)
+│   ├── notebooks/                       # Notebooks individuais preservados
 │   └── resultados/                      # Resultados organizados por experimento (originais, revisada, log_minmax, ...)
 ├── questao2/                            # Pipeline modular da Questão 2 (ver questao2/README.md)
 │   ├── dados/                           # spambase_q2.csv (escala original + y_double_kmeans) e proveniencia_q1.json
@@ -57,10 +60,10 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Para executar a suíte de testes da Questão 2:
+Para executar todas as suítes de testes (Questão 1 e Questão 2):
 
 ```powershell
-pytest questao2/tests
+pytest questao1/tests questao2/tests
 ```
 
 ---
