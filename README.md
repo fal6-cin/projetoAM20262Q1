@@ -1,9 +1,70 @@
-# Questão 1 revisada
+# Projeto AM 2026-2 — Spambase (Double K-means e Classificação)
 
-Abra questao1_double_kmeans_revisada.ipynb nesta pasta e execute em ordem. Bibliotecas: numpy, pandas, matplotlib e scikit-learn. A primeira célula instala dependências se necessário.
+Repositório do projeto da disciplina **Aprendizagem de Máquina (CIn/UFPE — 2026.2)** sobre a base **Spambase** (4.601 instâncias, 57 atributos numéricos contínuos e 2 classes a priori: `non-spam` / `spam`).
 
-O notebook e os resultados originais permanecem em ../original_zip/projeto1_am. resultados_originais_zip é uma cópia das saídas fornecidas; os novos resultados ficam em resultados_questao1_revisada.
+Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf).
 
-REUTILIZAR_ZIP=True reconstrói as nove melhores partições usando as seeds salvas, conferindo W, Silhouette, dados e rótulos vencedores. False repete o grid de 900 execuções válidas. Sensibilidade acrescenta 1800 execuções válidas e não troca os rótulos oficiais.
+---
 
-Auditoria exporta tamanhos, Silhouette individual e por cluster, detalhes dos objetos do grupo pequeno, ranking e figuras. Sensibilidade exporta grids, partições completas NPZ, rótulos diagnósticos, contingências, convergência, comparação de vencedores e estabilidade via ARI. Os IDs seguem a ordem do spambase.data, sem reordenar linhas.
+## Estrutura do Repositório
+
+```text
+.
+├── data/
+│   └── raw/                             # Fonte única da base original (spambase.data, spambase.names)
+├── Enunciado do Projeto/
+│   └── Projeto-AM-2026-2.pdf            # Especificação oficial do projeto
+├── questao1/
+│   ├── src/double_kmeans.py             # Implementação única do algoritmo Double K-means
+│   ├── revisada/                        # Notebook principal revisado, auditorias e sensibilidade
+│   └── experimentos/                    # Variações de pré-processamento (binarização, log_minmax, etc.)
+├── questao2/                            # Pipeline modular da Questão 2 (ver questao2/README.md)
+│   ├── dados/                           # spambase_q2.csv (escala original + y_double_kmeans) e proveniencia_q1.json
+│   ├── src/                             # Carregamento, CV 30×10 / 5-fold, métricas, Friedman/Nemenyi e 5 modelos
+│   ├── scripts/                         # Scripts CLI de execução, comparação e análise
+│   ├── tests/                           # Suíte de testes automatizados (67 casos)
+│   ├── resultados/                      # Métricas, predições, análise estatística e curvas de aprendizagem
+│   └── docs/                            # Relatórios e auditorias da Questão 2
+└── entrega/
+    └── README_entrega.md                # Checklist dos arquivos individuais para o Google Classroom
+```
+
+---
+
+## Fluxo do Projeto
+
+1. **Questão 1 (Co-clustering não supervisionado com Double K-means):**
+   - Grade $(K, H)$ com $K \in \{2, 3, 4\}$ e $H \in \{1, \ldots, K\}$ (9 pares, 100 reinicializações válidas por par).
+   - Seleção por menor função objetivo $W$ por par, seguida de Silhueta média para escolha de $(K^*, H^*)$ e avaliação externa via ARI.
+   - Os rótulos oficiais exportados para a Questão 2 (`questao2/dados/spambase_q2.csv`) vêm de `questao1/experimentos/questao1_log_minmax/` ($K^*=3, H^*=3$, mantendo os 57 atributos na escala original).
+2. **Questão 2 (Classificação Supervisionada e Avaliação Estatística):**
+   - Comparação de 5 classificadores (**Bayesiano Gaussiano**, **k-NN**, **Janela de Parzen**, **Regressão Logística** e **Voto Majoritário**) em duas versões do alvo: `y_original` (2 classes) e `y_double_kmeans` (3 classes).
+   - Validação cruzada estratificada **30 × 10-folds**, ajuste de hiperparâmetros via **5-fold** restrito aos 9 folds de treino, intervalos de confiança, testes **Friedman / Nemenyi** e curvas de aprendizagem (5% a 95%).
+   - Detalhes completos em [questao2/README.md](questao2/README.md) e [questao2/docs/RELATORIO_FINAL_QUESTAO2.md](questao2/docs/RELATORIO_FINAL_QUESTAO2.md).
+
+---
+
+## Configuração do Ambiente e Testes
+
+Com Python 3.12+ na raiz do repositório:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r questao2/requirements.txt pytest
+```
+
+Para executar a suíte de testes da Questão 2:
+
+```powershell
+pytest questao2/tests
+```
+
+---
+
+## Entrega (18/11/2026)
+
+* **Google Classroom:** enviar **arquivos individuais** (código-fonte, executável se houver, slides e relatório) — **não compactar em `.zip`**.
+* **Apresentação:** limite rigoroso de **10 minutos** (incluindo discussão), com presença e participação obrigatórias de toda a equipe.
+* Consulte o checklist em [entrega/README_entrega.md](entrega/README_entrega.md).
