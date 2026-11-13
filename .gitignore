@@ -1,3 +1,28 @@
+# Ambientes e configuração local
 .venv/
 .agents/
 /GEMINI.md
+
+# Python caches e artefatos de compilação
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testes e ferramentas de análise
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Empacotamento / build
+*.egg-info/
+dist/
+build/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
