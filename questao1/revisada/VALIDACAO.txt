@@ -1,8 +1,0 @@
-Notebook executado integralmente; estrutura validada com nbformat.
-Nove soluções do ZIP reproduzidas (W e Silhouette); dados e partição vencedora conferidos.
-1800 novas execuções válidas na sensibilidade (100 por par e pré-processamento adicional).
-27 melhores soluções sem atingir o limite de 200 iterações.
-Figuras de auditoria e sensibilidade inspecionadas visualmente.
-Arquivos originais extraídos conferidos contra o ZIP por SHA-256; preservados.
-Coluna de duplicatas adicionada ao CSV e ao código após a execução, usando os mesmos 34 IDs.
-
