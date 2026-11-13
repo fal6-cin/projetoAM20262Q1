@@ -101,7 +101,7 @@ Esses valores são preservados exclusivamente para rastreabilidade, **não subst
 Execute na **raiz do repositório**:
 
 ```bash
-python -m pip install -r questao2/requirements.txt
+python -m pip install -r requirements.txt
 python -m questao2.scripts.comparar_preprocessamento --repeticoes 1
 ```
 

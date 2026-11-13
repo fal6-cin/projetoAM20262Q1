@@ -26,8 +26,9 @@ Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-
 │   ├── tests/                           # Suíte de testes automatizados (67 casos)
 │   ├── resultados/                      # Métricas, predições, análise estatística e curvas de aprendizagem
 │   └── docs/                            # Relatórios e auditorias da Questão 2
-└── entrega/
-    └── README_entrega.md                # Checklist dos arquivos individuais para o Google Classroom
+├── entrega/
+│   └── README_entrega.md                # Checklist dos arquivos individuais para o Google Classroom
+└── requirements.txt                     # Dependências unificadas do projeto (Q1, Q2, notebooks e testes)
 ```
 
 ---
@@ -53,7 +54,7 @@ Com Python 3.12+ na raiz do repositório:
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-pip install -r questao2/requirements.txt pytest
+pip install -r requirements.txt
 ```
 
 Para executar a suíte de testes da Questão 2:

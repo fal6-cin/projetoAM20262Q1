@@ -230,7 +230,7 @@ O estudo complementar de sensibilidade forneceu evidência exploratória favorá
 A partir da raiz do repositório:
 
 ```bash
-python -m pip install -r questao2/requirements.txt
+python -m pip install -r requirements.txt
 python -m questao2.scripts.validar_base
 python -m questao2.scripts.status_estudo
 python -m unittest discover -s questao2/tests -v

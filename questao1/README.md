@@ -33,4 +33,5 @@ questao1/
 ## Origem dos Dados e Ligação com a Questão 2
 
 - **Dados brutos:** lidos de `../data/raw/spambase.data` e `../data/raw/spambase.names` (4.601 instâncias, 57 atributos numéricos).
+- **Dependências:** instaladas pelo [../requirements.txt](../requirements.txt) na raiz do repositório (`pip install -r requirements.txt`).
 - **Entrada oficial da Questão 2:** o arquivo `questao2/dados/spambase_q2.csv` corresponde a `resultados/log_minmax/spambase_com_clusters_log_minmax.csv`, mantendo os **57 atributos na escala original** junto com `y_original` e `y_double_kmeans` ($K^*=3, H^*=3$).

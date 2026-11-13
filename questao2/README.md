@@ -38,7 +38,6 @@ questao2/
 │   ├── COMPARACAO_PREPROCESSAMENTO.md
 │   └── ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md
 ├── config.json
-├── requirements.txt
 ├── dados/
 │   ├── spambase_q2.csv
 │   └── proveniencia_q1.json
@@ -92,7 +91,7 @@ questao2/
 3. Opcionalmente crie um ambiente virtual e instale os requisitos:
 
 ```bash
-python -m pip install -r questao2/requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 4. Execute as verificações:
@@ -416,7 +415,7 @@ um deles incluindo 5 folds internos para seleção de hiperparâmetros. A execu�
 ### Executar sem perder todo o progresso ao interromper
 
 Abra um terminal na **raiz do repositório** (pasta que contém `questao2/`), instale
-`questao2/requirements.txt` e rode:
+`requirements.txt` e rode:
 
 ```bash
 # Confirma as implementações e a base
