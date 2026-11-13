@@ -163,7 +163,7 @@ Para responder à pergunta de pesquisa sobre a sensibilidade do Double K-means a
 Para assegurar uma comparação justa, rigorosa e rastreável:
 1. **Mesma Grade e Sementes:** Cada estratégia executou rigorosamente os 9 pares $(K, H)$ com 100 restarts válidos cada (900 execuções por estratégia), utilizando o mesmo gerador de sementes e critério de parada.
 2. **Isolamento de Diretórios:** Cada estratégia possui seu notebook `.ipynb` autoexecutável com saídas incorporadas e pasta de resultados exclusiva, impedindo sobrescrita de dados históricos:
-   - `resultados_originais_zip/` e `resultados_questao1_revisada/`: Linha de base original (`StandardScaler` puro);
+   - `resultados_originais/` e `resultados_questao1_revisada/`: Linha de base original (`StandardScaler` puro);
    - `questao1_binarizacao/`: Estratégia 1 (binarização das 54 frequências + `log1p` nas 3 variáveis de maiúsculas + `StandardScaler`);
    - `questao1_log_minmax/`: Estratégia 2 ($\log(1+x)$ + `MinMaxScaler`);
    - `questao1_quantile_uniform/`: Estratégia 3 (`QuantileTransformer` uniforme);
