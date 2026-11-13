@@ -1,13 +1,13 @@
 # Questão 2 — Spambase / Aprendizagem de Máquina 2026.2
 
-> **Relatório final consolidado:** [RELATORIO_FINAL_QUESTAO2.md](RELATORIO_FINAL_QUESTAO2.md). Reúne as métricas e os intervalos de confiança descritivos do 30 × 10, Friedman/Nemenyi, curvas de aprendizagem e interpretação.
+> **Relatório final consolidado:** [docs/RELATORIO_FINAL_QUESTAO2.md](docs/RELATORIO_FINAL_QUESTAO2.md). Reúne as métricas e os intervalos de confiança descritivos do 30 × 10, Friedman/Nemenyi, curvas de aprendizagem e interpretação.
 
 ## Estado deste pacote
 **Etapas 1, 2a, 2b, 2c, 2d e 2e funcionais:** base oficial da Questão 1, metadados, carregamento, verificações, 30×10-folds estratificados, 5-folds internos e funções de métricas. Os classificadores bayesianos gaussiano MULTIVARIADO, k-vizinhos, Parzen (kernel gaussiano multivariado produto) e regressão logística L2 estão implementados e integrados à CV aninhada; o voto majoritário dos quatro também está implementado, com auditoria dos arquivos de predições externas.
 
-**Etapa 3 concluída (30×10):** os cinco classificadores, para `y_original` e `y_double_kmeans`, têm 30 repetições de 10 folds externos completas, auditadas e consolidadas. Já foram calculadas as quatro métricas, intervalos de confiança descritivos aproximados, Friedman e Nemenyi. Consulte `resultados/analise_estatistica/` e `AUDITORIA_30x10.md`.
+**Etapa 3 concluída (30×10):** os cinco classificadores, para `y_original` e `y_double_kmeans`, têm 30 repetições de 10 folds externos completas, auditadas e consolidadas. Já foram calculadas as quatro métricas, intervalos de confiança descritivos aproximados, Friedman e Nemenyi. Consulte `resultados/analise_estatistica/` e `docs/AUDITORIA_30x10.md`.
 
-**Etapa 4 concluída:** as curvas de aprendizagem foram executadas de 5% a 95% de treinamento, em passos de 5%, para os cinco classificadores e as duas variáveis resposta. CSVs, 14 gráficos e discussão estão em `resultados/curvas_aprendizagem/` e `RELATORIO_CURVAS_APRENDIZAGEM.md`. O relatório final está em `RELATORIO_FINAL_QUESTAO2.md`. Resta a preparação da apresentação da disciplina.
+**Etapa 4 concluída:** as curvas de aprendizagem foram executadas de 5% a 95% de treinamento, em passos de 5%, para os cinco classificadores e as duas variáveis resposta. CSVs, 14 gráficos e discussão estão em `resultados/curvas_aprendizagem/` e `docs/RELATORIO_CURVAS_APRENDIZAGEM.md`. O relatório final está em `docs/RELATORIO_FINAL_QUESTAO2.md`. Resta a preparação da apresentação da disciplina.
 
 **Ressalva estatística:** os testes de Friedman/Nemenyi e os ICs da Etapa 3 usam médias por repetição sobre os mesmos 4.601 e-mails; por isso, suas inferências devem ser interpretadas como exploratórias.
 
@@ -30,12 +30,13 @@
 ```text
 questao2/
 ├── README.md
-├── RELATORIO_FINAL_QUESTAO2.md
-├── RELATORIO_CURVAS_APRENDIZAGEM.md
-├── AUDITORIA_30x10.md
-├── ESTADO_ETAPA3.md
-├── COMPARACAO_PREPROCESSAMENTO.md
-├── ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md
+├── docs/
+│   ├── RELATORIO_FINAL_QUESTAO2.md
+│   ├── RELATORIO_CURVAS_APRENDIZAGEM.md
+│   ├── AUDITORIA_30x10.md
+│   ├── ESTADO_ETAPA3.md
+│   ├── COMPARACAO_PREPROCESSAMENTO.md
+│   └── ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md
 ├── config.json
 ├── requirements.txt
 ├── dados/
@@ -128,7 +129,7 @@ Para **cada uma** das variáveis resposta (`y_original`, `y_double_kmeans`):
 - Etapa 2: **concluída** — quatro classificadores-base, voto majoritário e testes automatizados.
 - Etapa 3: **concluída e auditada** — 30 × 10 avaliações externas por classificador e variável resposta, métricas, ICs descritivos, Friedman/Nemenyi exploratórios.
 - Etapa 4: **concluída** — curvas de aprendizagem de 5% a 95%, F1 macro de treino e teste, CSVs, 14 gráficos e discussão.
-- Relatório final: **concluído** — `RELATORIO_FINAL_QUESTAO2.md`.
+- Relatório final: **concluído** — `docs/RELATORIO_FINAL_QUESTAO2.md`.
 - Estudo complementar de pré-processamento: **concluído como análise exploratória**, incluindo as duas reavaliações localizadas e as limitações documentadas.
 - Testes automatizados: **67 casos executados e aprovados** nesta versão (os 62 da auditoria antiga são um marco histórico).
 - Apresentação da disciplina: **pendente**.
@@ -538,7 +539,7 @@ modelos em treino/teste e curvas pareadas por modelo) são gerados **somente
 quando todas as 19 proporções estão disponíveis**. Para resultados de
 mais de um sorteio, cada ponto apresenta média e desvio padrão dos F1.
 
-O documento `RELATORIO_CURVAS_APRENDIZAGEM.md` descreve o protocolo e os
+O documento `docs/RELATORIO_CURVAS_APRENDIZAGEM.md` descreve o protocolo e os
 resultados executados. Os gráficos não substituem os testes Friedman/Nemenyi
 calculados para a etapa anterior.
 
@@ -562,4 +563,4 @@ python -m questao2.scripts.comparar_preprocessamento --repeticoes 1
 python -m questao2.scripts.comparar_preprocessamento --repeticoes 1 --apenas-consolidar
 ```
 
-Documentos: [protocolo e diagnóstico histórico](COMPARACAO_PREPROCESSAMENTO.md) e [análise completa revisada](ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md). CSVs e registros por fold: `resultados/comparacao_preprocessamento/`.
+Documentos: [protocolo e diagnóstico histórico](docs/COMPARACAO_PREPROCESSAMENTO.md) e [análise completa revisada](docs/ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md). CSVs e registros por fold: `resultados/comparacao_preprocessamento/`.
