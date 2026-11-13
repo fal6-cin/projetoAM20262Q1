@@ -162,14 +162,14 @@ Para responder à pergunta de pesquisa sobre a sensibilidade do Double K-means a
 
 Para assegurar uma comparação justa, rigorosa e rastreável:
 1. **Mesma Grade e Sementes:** Cada estratégia executou rigorosamente os 9 pares $(K, H)$ com 100 restarts válidos cada (900 execuções por estratégia), utilizando o mesmo gerador de sementes e critério de parada.
-2. **Isolamento de Diretórios:** Cada estratégia possui seu notebook `.ipynb` autoexecutável com saídas incorporadas e pasta de resultados exclusiva, impedindo sobrescrita de dados históricos:
-   - `resultados_originais/` e `resultados_questao1_revisada/`: Linha de base original (`StandardScaler` puro);
-   - `questao1_binarizacao/`: Estratégia 1 (binarização das 54 frequências + `log1p` nas 3 variáveis de maiúsculas + `StandardScaler`);
-   - `questao1_log_minmax/`: Estratégia 2 ($\log(1+x)$ + `MinMaxScaler`);
-   - `questao1_quantile_uniform/`: Estratégia 3 (`QuantileTransformer` uniforme);
-   - `questao1_clip_log_standard/`: Estratégia 4 (Clip 99% + $\log(1+x)$ + `StandardScaler`);
-   - `questao1_tratamento_diferenciado_runs/`: Estratégia 5 (Tratamento Diferenciado de Maiúsculas por Blocos);
-   - `questao1_filtragem_dominio/`: Estratégia 6 (Filtragem de Termos Específicos do Domínio HP Labs).
+2. **Isolamento de Diretórios:** Cada estratégia possui seu notebook `.ipynb` em `questao1/notebooks/` com saídas incorporadas e pasta exclusiva em `questao1/resultados/`, impedindo sobrescrita de dados históricos:
+   - `resultados/originais/` e `resultados/revisada/` (`notebooks/revisada.ipynb`): Linha de base original (`StandardScaler` puro);
+   - `resultados/binarizacao/` (`notebooks/binarizacao.ipynb`): Estratégia 1 (binarização das 54 frequências + `log1p` nas 3 variáveis de maiúsculas + `StandardScaler`);
+   - `resultados/log_minmax/` (`notebooks/log_minmax.ipynb`): Estratégia 2 ($\log(1+x)$ + `MinMaxScaler`);
+   - `resultados/quantile_uniform/` (`notebooks/quantile_uniform.ipynb`): Estratégia 3 (`QuantileTransformer` uniforme);
+   - `resultados/clip_log_standard/` (`notebooks/clip_log_standard.ipynb`): Estratégia 4 (Clip 99% + $\log(1+x)$ + `StandardScaler`);
+   - `resultados/tratamento_diferenciado_runs/` (`notebooks/tratamento_diferenciado_runs.ipynb`): Estratégia 5 (Tratamento Diferenciado de Maiúsculas por Blocos);
+   - `resultados/filtragem_dominio/` (`notebooks/filtragem_dominio.ipynb`): Estratégia 6 (Filtragem de Termos Específicos do Domínio HP Labs).
 
 ### 4.2 Detalhamento Conceitual das Estratégias
 
@@ -269,7 +269,7 @@ Os resultados da estratégia selecionada mostram que o microcluster persiste:
 Nas estratégias que trataram as frequências de palavras (Binarização e Log-MinMax):
 - **Efeito das transformações:** a Silhueta no espaço transformado situou-se aproximadamente entre $0,13$ e $0,21$ nessas estratégias. Como os espaços transformados são diferentes, isso não constitui uma comparação absoluta de qualidade.
 - **Concordância externa parcial:** o par vencedor foi $(K^*, H^*) = (3, 3)$, com $\text{ARI} = +0,3911$. A composição das classes originais varia entre os três grupos, mas há mistura relevante no cluster 0. O ARI foi calculado apenas após o agrupamento, não usado para selecioná-lo.
-- **Matriz de contingência na Estratégia 2**, conforme `questao1_log_minmax/resultados_questao1_log_minmax/matriz_contingencia.csv`:
+- **Matriz de contingência na Estratégia 2**, conforme `questao1/resultados/log_minmax/matriz_contingencia.csv`:
 
 | Cluster | Non-spam (0) | Spam (1) | Total | Percentual predominante |
 | :--- | ---: | ---: | ---: | :--- |
@@ -286,7 +286,7 @@ As matrizes abaixo reproduzem a **ordem dos rótulos de objetos e de variáveis 
 
 ### 7.1 Linha de Base — `StandardScaler` puro, $(K,H)=(2,2)$
 
-Fonte: `resultados_questao1_revisada/matriz_prototipos_G.csv` e `particao_variaveis.csv`.
+Fonte: `questao1/resultados/revisada/matriz_prototipos_G.csv` e `particao_variaveis.csv`.
 
 | Grupo de objetos | Variáveis 0 — 11 atributos de vocabulário específico | Variáveis 1 — 46 demais atributos |
 | :--- | ---: | ---: |
@@ -297,7 +297,7 @@ O bloco de 11 variáveis inclui `415`, `650`, `85`, `857`, `direct`, `hp`, `hpl`
 
 ### 7.2 Estratégia 5 — Maiúsculas tratadas separadamente, $(K,H)=(2,2)$
 
-Fonte: `questao1_tratamento_diferenciado_runs/resultados_questao1_tratamento_diferenciado_runs/matriz_prototipos_G.csv`.
+Fonte: `questao1/resultados/tratamento_diferenciado_runs/matriz_prototipos_G.csv`.
 
 | Grupo de objetos | Variáveis 0 — 46 atributos gerais | Variáveis 1 — 11 atributos de vocabulário específico |
 | :--- | ---: | ---: |
@@ -308,7 +308,7 @@ Embora as duas estratégias isolem o mesmo número de objetos, a **ordem dos ró
 
 ### 7.3 Estratégia 6 — Filtragem de termos de domínio, $(K,H)=(2,1)$
 
-Fonte: `questao1_filtragem_dominio/resultados_questao1_filtragem_dominio/matriz_prototipos_G.csv`.
+Fonte: `questao1/resultados/filtragem_dominio/matriz_prototipos_G.csv`.
 
 | Grupo de objetos | Variáveis 0 — 49 atributos mantidos |
 | :--- | ---: |
@@ -319,7 +319,7 @@ Os valores resumem a média de cada bloco padronizado; não são proporções de
 
 ### 7.4 Estratégia 2 — `log1p` + `MinMaxScaler`, $(K,H)=(3,3)$
 
-Fonte: `questao1_log_minmax/resultados_questao1_log_minmax/matriz_prototipos_G.csv` e `particao_variaveis.csv`.
+Fonte: `questao1/resultados/log_minmax/matriz_prototipos_G.csv` e `particao_variaveis.csv`.
 
 | Grupo de objetos | Variáveis 0 (4 atributos) | Variáveis 1 (31 atributos) | Variáveis 2 (22 atributos) |
 | :--- | ---: | ---: | ---: |

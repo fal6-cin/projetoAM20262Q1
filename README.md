@@ -14,10 +14,11 @@ Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-
 │   └── raw/                             # Fonte única da base original (spambase.data, spambase.names)
 ├── Enunciado do Projeto/
 │   └── Projeto-AM-2026-2.pdf            # Especificação oficial do projeto
-├── questao1/
+├── questao1/                            # Co-clustering não supervisionado (ver questao1/README.md)
 │   ├── src/double_kmeans.py             # Implementação única do algoritmo Double K-means
-│   ├── revisada/                        # Notebook principal revisado, auditorias e sensibilidade
-│   └── experimentos/                    # Variações de pré-processamento (binarização, log_minmax, etc.)
+│   ├── docs/                            # Relatório técnico da Questão 1
+│   ├── notebooks/                       # Notebooks (revisada + 6 variações de pré-processamento)
+│   └── resultados/                      # Resultados organizados por experimento (originais, revisada, log_minmax, ...)
 ├── questao2/                            # Pipeline modular da Questão 2 (ver questao2/README.md)
 │   ├── dados/                           # spambase_q2.csv (escala original + y_double_kmeans) e proveniencia_q1.json
 │   ├── src/                             # Carregamento, CV 30×10 / 5-fold, métricas, Friedman/Nemenyi e 5 modelos
@@ -36,7 +37,7 @@ Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-
 1. **Questão 1 (Co-clustering não supervisionado com Double K-means):**
    - Grade $(K, H)$ com $K \in \{2, 3, 4\}$ e $H \in \{1, \ldots, K\}$ (9 pares, 100 reinicializações válidas por par).
    - Seleção por menor função objetivo $W$ por par, seguida de Silhueta média para escolha de $(K^*, H^*)$ e avaliação externa via ARI.
-   - Os rótulos oficiais exportados para a Questão 2 (`questao2/dados/spambase_q2.csv`) vêm de `questao1/experimentos/questao1_log_minmax/` ($K^*=3, H^*=3$, mantendo os 57 atributos na escala original).
+   - Os rótulos oficiais exportados para a Questão 2 (`questao2/dados/spambase_q2.csv`) vêm de `questao1/resultados/log_minmax/` ($K^*=3, H^*=3$, mantendo os 57 atributos na escala original).
 2. **Questão 2 (Classificação Supervisionada e Avaliação Estatística):**
    - Comparação de 5 classificadores (**Bayesiano Gaussiano**, **k-NN**, **Janela de Parzen**, **Regressão Logística** e **Voto Majoritário**) em duas versões do alvo: `y_original` (2 classes) e `y_double_kmeans` (3 classes).
    - Validação cruzada estratificada **30 × 10-folds**, ajuste de hiperparâmetros via **5-fold** restrito aos 9 folds de treino, intervalos de confiança, testes **Friedman / Nemenyi** e curvas de aprendizagem (5% a 95%).
