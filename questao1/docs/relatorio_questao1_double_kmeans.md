@@ -11,7 +11,7 @@ Este relatório apresenta o desenvolvimento, a validação empírica e a anális
 O relatório documenta:
 1. Uma descrição sucinta das características distributivas e estruturais do *Spambase*;
 2. A formulação matemática do Double K-means e o processo formal de obtenção dos hiperparâmetros;
-3. O delineamento do protocolo experimental estritamente não supervisionado e reprodutível;
+3. O delineamento do agrupamento e da escolha de $(K,H)$ **não supervisionados em cada representação**, distinguindo-os da escolha posterior da representação final, informada também pela concordância externa (ARI);
 4. A investigação aprofundada do comportamento patológico do z-score clássico (*StandardScaler puro*), que resultou no isolamento de um grupo de 34 e-mails com vocabulário técnico específico e Silhueta elevada ($0,6596$) e $\text{ARI} \approx 0$;
 5. O desenvolvimento e a execução exaustiva de seis estratégias de pré-processamento alternativas (totalizando 6.300 execuções válidas reportadas do algoritmo (900 por estratégia));
 6. A comparação quantitativa e qualitativa das partições obtidas;
@@ -26,7 +26,7 @@ O conjunto de dados *Spambase* é proveniente do *UCI Machine Learning Repositor
 - **Classe 1 (*spam* / não solicitado):** $1.813$ e-mails ($39,40\%$ da base).
 
 > [!IMPORTANT]
-> **Integridade Não Supervisionada:** Conforme as diretrizes estritas do projeto, a variável de classe original $y$ foi completamente excluída de todas as etapas de pré-processamento, padronização, agrupamento bidirecional e critério de parada do Double K-means. O rótulo $y$ foi utilizado única e exclusivamente a posteriori para o cálculo do *Adjusted Rand Index* (ARI) como métrica de validação externa.
+> **Separação entre agrupamento e escolha de representação:** a classe original $y$ **não entra** no cálculo de nenhuma transformação dos atributos, nas atualizações de $U,V,G$ nem na seleção de $(K,H)$ por Silhueta dentro de cada uma das sete representações. Após esses agrupamentos, calcula-se o *Adjusted Rand Index* (ARI) com $y_{original}$. Esse resultado externo **também foi considerado na decisão final de adotar `log_minmax` para a Questão 2**; portanto, a escolha **entre representações** foi informada por rótulos, embora o ajuste do Double K-means e a escolha de $(K,H)$ dentro de cada representação continuem não supervisionados.
 
 ### 1.1 Tipologia e Granularidade dos Atributos
 
@@ -105,7 +105,7 @@ O problema é resolvido por um procedimento iterativo de descida alternada em tr
 
 ## 3. Obtenção dos Hiperparâmetros do Modelo
 
-Diferente de algoritmos supervisionados nos quais a validação cruzada orienta a busca, no agrupamento bidirecional não supervisionado os hiperparâmetros foram determinados conforme o protocolo experimental rigoroso estabelecido pelo projeto.
+Diferente de algoritmos supervisionados nos quais a validação cruzada orienta a busca, no agrupamento bidirecional não supervisionado os hiperparâmetros foram determinados conforme o protocolo experimental estabelecido pelo projeto **para uma representação fixa dos dados**.
 
 ### 3.1 Espaço de Hiperparâmetros Avaliado
 
@@ -121,7 +121,7 @@ Como a função $W(G, U, V)$ é não convexa e sujeita a mínimos locais, cada p
 Para garantir total reprodutibilidade científica, a sequência de números pseudoaleatórios seguiu a regra determinística:
 $$\text{seed} = \text{base\_seed} + 10.000 \cdot K + 1.000 \cdot H + \text{restart\_idx}, \quad (\text{com } \text{base\_seed} = 42)$$
 
-### 3.3 Protocolo Estrito de Seleção em Dois Estágios
+### 3.3 Protocolo de Seleção em Dois Estágios (dentro de cada representação)
 
 A metodologia segue um protocolo em cascata que não permite inversões:
 
@@ -143,7 +143,7 @@ flowchart TD
    Sobre a partição de objetos da melhor execução selecionada no Estágio 1, computa-se o coeficiente de Silhueta médio:
    $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}, \quad \text{Sil}(K, H) = \frac{1}{N} \sum_{i=1}^N s(i)$$
    onde $a(i)$ é a distância média intra-cluster e $b(i)$ é a distância média ao cluster vizinho mais próximo.
-   O par vencedor é então definido por:
+   O par vencedor **na representação examinada** é então definido por:
    $$(K^*, H^*) = \arg\max_{K, H} \text{Sil}(K, H)$$
 3. **Avaliação Externa de Coerência (Adjusted Rand Index — ARI):**
    Após a fixação de $(K^*, H^*)$, a partição de objetos $y_{double\_kmeans}$ é contrastada com o rótulo a priori $y_{original}$ via ARI:
@@ -209,6 +209,16 @@ Para assegurar uma comparação justa, rigorosa e rastreável:
 
 ---
 
+### 4.3 Decisão de representação para a Questão 2: etapa adicional informada pelo ARI
+
+O protocolo obrigatório de seleção do Double K-means foi aplicado **separadamente a cada transformação**: em cada par $(K,H)$ selecionou-se o reinício de menor $W$ e, entre os nove pares daquela transformação, o de maior Silhueta. **Nenhuma classe conhecida foi utilizada nessas operações.**
+
+Após obter as sete soluções vencedoras, foi escolhida **`log_minmax`** para produzir `y_double_kmeans` na Questão 2. Essa escolha considerou (i) manter os 57 atributos sem filtragem de termos; (ii) comprimir caudas assimétricas com `log1p` e colocar os atributos na faixa $[0,1]$; e (iii) a **concordância externa** medida após cada agrupamento, na qual `log_minmax` alcançou ARI $+0,3911$ (maior ARI entre as sete soluções selecionadas por Silhueta). **O uso desse terceiro critério significa que a escolha final entre transformações não foi inteiramente independente dos rótulos originais.** O ARI, por outro lado, **não substituiu a Silhueta** para escolher $(K,H)$ dentro de `log_minmax`; o par escolhido nessa representação permaneceu $(3,3)$.
+
+A função objetivo $W$ e a Silhueta são calculadas em geometrias diferentes conforme a transformação. **Não se devem ordenar representações distintas pelo valor absoluto de $W$ nem interpretar suas Silhuetas como medidas diretamente equivalentes.** As conclusões da Questão 2 devem ser entendidas como condicionadas à representação escolhida e aos rótulos de cluster resultantes.
+
+---
+
 ## 5. Resultados e Comparação dos Pré-processamentos
 
 A Tabela 1 consolida as métricas e partições obtidas pela melhor solução de cada estratégia de pré-processamento, após as 100 execuções válidas por cada um dos 9 pares $(K,H)$ (900 execuções por estratégia):
@@ -268,7 +278,7 @@ Os resultados da estratégia selecionada mostram que o microcluster persiste:
 
 Nas estratégias que trataram as frequências de palavras (Binarização e Log-MinMax):
 - **Efeito das transformações:** a Silhueta no espaço transformado situou-se aproximadamente entre $0,13$ e $0,21$ nessas estratégias. Como os espaços transformados são diferentes, isso não constitui uma comparação absoluta de qualidade.
-- **Concordância externa parcial:** o par vencedor foi $(K^*, H^*) = (3, 3)$, com $\text{ARI} = +0,3911$. A composição das classes originais varia entre os três grupos, mas há mistura relevante no cluster 0. O ARI foi calculado apenas após o agrupamento, não usado para selecioná-lo.
+- **Concordância externa parcial:** o par vencedor foi $(K^*, H^*) = (3, 3)$, com $\text{ARI} = +0,3911$. A composição das classes originais varia entre os três grupos, mas há mistura relevante no cluster 0. O ARI foi calculado **depois do agrupamento** e **não escolheu esse par** dentro de `log_minmax`; contudo, foi levado em conta posteriormente **na escolha dessa representação entre as sete alternativas**.
 - **Matriz de contingência na Estratégia 2**, conforme `questao1/resultados/log_minmax/matriz_contingencia.csv`:
 
 | Cluster | Non-spam (0) | Spam (1) | Total | Percentual predominante |
@@ -388,7 +398,4 @@ Com base no arcabouço experimental executado, recomenda-se que o relatório fin
    - A binarização e a transformação $\log(1+x) + \text{MinMaxScaler}$ produzem soluções com concordância externa parcial: ARI de $+0,3911$ para a Estratégia 2 em $(3,3)$ e $+0,3553$ para a Estratégia 1 em $(2,2)$.
    - A Estratégia 5 mantém o microcluster de 34 na solução $(2,2)$ e apresenta $\text{ARI} = +0,4632$ em $(3,3)$; esta última configuração não é a vencedora por Silhueta.
 4. **Decisão sobre a Entrada da Questão 2:**
-   O dataset exportado na pasta raiz preserva os rótulos do experimento original (baseline). As versões alternativas permanecem em suas pastas. A definição de qual conjunto será tratado como **oficial da Questão 2** depende de decisão metodológica explícita do grupo; não se deve caracterizar uma transformação específica como exigência do enunciado.
-
----
-*Relatório original de 15/10/2026, revisado documentalmente em 16/10/2026. Correções conferidas com `double_kmeans.py` e os CSVs de resultados do repositório fornecido; as execuções experimentais não foram alteradas nesta revisão.*
+    No projeto consolidado, a base **oficial da Questão 2** é `questao2/dados/spambase_q2.csv`, derivada de `questao1/resultados/log_minmax/spambase_com_clusters_log_minmax.csv`. Ela mantém os 57 preditores em escala bruta e acrescenta `y_original` e `y_double_kmeans`. Foi adotado `log_minmax` por razões de representação e pela concordância externa observada; essa transformação não foi imposta pelo enunciado, e sua escolha entre alternativas foi informada pelo ARI.

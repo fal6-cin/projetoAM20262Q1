@@ -21,7 +21,7 @@ Foram utilizados **4.601 e-mails**, descritos por **57 atributos numéricos**, s
 | `y_original` | classe 0: **2.788**; classe 1: **1.813** | Classes originais da Spambase (não spam/spam) |
 | `y_double_kmeans` | cluster 0: **2.619**; cluster 1: **265**; cluster 2: **1.717** | Double K-means sobre Log1p + MinMaxScaler, **K*=3**, **H*=3**, seed **33044** |
 
-A partição da segunda versão foi obtida na Questão 1 com 100 inicializações por configuração (K,H). Para a escolha final Log1p + MinMaxScaler, foram registrados Silhouette **0,1292187**, ARI **0,3911114** e W **2906,2307**. O número do cluster é apenas um identificador; não equivale diretamente ao conceito spam/não spam.
+A partição da segunda versão foi obtida na Questão 1 com 100 inicializações por configuração $(K,H)$. Na representação adotada (`log1p` + `MinMaxScaler`), o par $(K^*,H^*)=(3,3)$ foi escolhido pela maior Silhueta **dentro daquela representação**; depois, registraram-se Silhueta **0,1292187**, ARI **0,3911114** e $W$ **2906,2307**. A escolha de `log_minmax` **entre sete alternativas de representação** considerou também o ARI externo, calculado com as classes originais, embora esse índice não tenha influenciado a otimização dos clusters nem a escolha de $(K,H)$ dentro da representação. O número do cluster é apenas um identificador; não equivale diretamente a spam/não spam.
 
 **Separação essencial:** o pré-processamento usado para produzir os rótulos não foi gravado como transformação dos 57 atributos no CSV. Ao treinar os classificadores, o código aplica `log1p` e ajusta `MinMaxScaler` *dentro de cada fold de treinamento*, tanto interno quanto externo, sem ajustar o escalonador sobre o teste.
 
@@ -29,13 +29,13 @@ A partição da segunda versão foi obtida na Questão 1 com 100 inicializaçõe
 
 | Modelo | Formulação utilizada | Parâmetros selecionados por CV interna 5-fold |
 |---|---|---|
-| **Bayes gaussiano multivariado** | Prioris por frequência e médias/covariâncias ML completas por classe; avaliação por log-densidades e Cholesky | Regularização relativa da covariância: `1e-6`, `1e-4`, `1e-2`, `1e-1` |
+| **Bayes gaussiano multivariado** | Prioris por frequência, médias e covariâncias **ML completas** por classe (divisor $n_c$); a densidade é calculada usando **covariância ML regularizada** e Cholesky | `\lambda \in \{10^{-6},10^{-4},10^{-2},10^{-1}\}` (regularização relativa, selecionada na CV interna) |
 | **Bayes k-vizinhos** | Probabilidades posteriores estimadas pela fração de vizinhos em cada classe | `k ∈ {1,3,5,7,11,15,21}`; distâncias Euclidiana, City-Block e Chebyshev |
 | **Bayes Parzen** | Estimador de densidade com kernel gaussiano multivariado produto, uma largura `h` compartilhada pelos atributos | `h ∈ {0,04; 0,08; 0,12; 0,20; 0,35; 0,55}` |
 | **Regressão logística** | Modelo discriminativo com regularização L2; classificação binária ou Softmax multiclasse | `C ∈ {0,03; 0,3; 3; 30; 300}` e ponderação de classes `None`/`balanced` |
 | **Voto majoritário** | Um voto de cada um dos quatro classificadores anteriores | Não possui ajuste de hiperparâmetros adicional; desempata pela maior priori estimada no treino |
 
-O classificador gaussiano não é um Naive Bayes: sua matriz de covariâncias possui os termos fora da diagonal. Quando necessário, usa `Σ_utilizada = Σ_ML + λ · s_treino · I` para contornar matrizes singulares. **A matriz regularizada já não é a estimativa ML pura**, o que é explicitamente documentado.
+**Detalhamento do Gaussiano em relação ao enunciado.** O classificador não é Naive Bayes: estima a média $\hat\mu_c = \frac{1}{n_c}\sum_{i:y_i=c} x_i$ e a matriz de covariância **completa** $\hat\Sigma_{c,\mathrm{ML}} = \frac{1}{n_c}\sum_{i:y_i=c}(x_i-\hat\mu_c)(x_i-\hat\mu_c)^\top$ por máxima verossimilhança (denominador $n_c$, não $n_c-1$). Entretanto, a densidade gaussiana utiliza $\Sigma_{c,\text{utilizada}} = \hat\Sigma_{c,\mathrm{ML}} + \lambda s_{\text{treino}}I$, em que $s_{\text{treino}}$ é a média das variâncias dos atributos no conjunto de treinamento transformado, calculadas com divisor $n$. Tanto essa escala quanto a matriz são estimadas **sem acesso à partição de teste**; $\lambda$ é escolhido por CV interna 5-fold. Todos os valores da grade são estritamente positivos, portanto **a regularização foi aplicada em todos os ajustes oficiais**, não apenas quando ocorreu uma singularidade. O acréscimo diagonal favorece estabilidade e fatoração de Cholesky, sem descartar as covariâncias cruzadas já estimadas;
 
 O Bayes Parzen usa probabilidades e densidades calculadas em escala logarítmica para evitar subfluxo numérico; no voto, a priori é calculada exclusivamente no treinamento do fold. A otimização de hiperparâmetros maximiza F1 macro nos dados de validação interna.
 
@@ -148,7 +148,7 @@ Os pares e p-valores do pós-teste para **todas as quatro métricas** estão reg
 
 ## 7. Curvas de aprendizagem — item (d)
 
-O estudo das curvas foi executado **separadamente do 30 × 10-fold**. Para cada uma das duas respostas e para cada percentual **5, 10, ..., 95%**, realizou-se uma divisão estratificada treino/teste complementar: com p% para treino e (100−p)% para teste, sem sobreposição. Em cada ponto os mesmos subconjuntos são usados pelos cinco modelos; a seleção de hiperparâmetros ocorre novamente apenas no treino desse ponto.
+O estudo das curvas foi executado **separadamente do 30 × 10-fold**. Como interpretação operacional da expressão «conjunto original de treinamento» do item (d), adotou-se a **base disponível de 4.601 observações** para cada tarefa supervisionada, antes de escolher qualquer divisão externa. Para cada alvo e cada percentual **5, 10, ..., 95%**, foi sorteado um único par complementar e estratificado: $p\%$ para treino e $(100-p)\%$ para teste, sem sobreposição, com semente 2026. Em cada ponto os cinco classificadores compartilham os mesmos índices; seleção de hiperparâmetros e ajuste de `log1p + MinMaxScaler` ocorrem apenas no treino e nas respectivas divisões internas.
 
 **Foram executadas 38 divisões estratificadas e 190 avaliações finais de modelos** (19 percentuais × 2 alvos × 5 classificadores), com **uma divisão por percentual e por alvo** (semente 2026). Os percentuais diferentes não formam necessariamente subconjuntos aninhados. Portanto, estas curvas não são médias de 30 sorteios e não devem ser interpretadas como tendências livres de incerteza amostral.
 
@@ -214,7 +214,7 @@ A avaliação principal **30 × 10**, seus intervalos de confiança, os testes F
 1. **Dependência nas repetições:** os testes 30 × 10-fold reutilizam os mesmos 4.601 e-mails. ICs t e testes Friedman/Nemenyi fornecem resumos/exploração de variação entre partições, não inferência rigorosa para amostras futuras independentes.
 2. **Rótulos transdutivos no segundo alvo:** `y_double_kmeans` foi obtido a partir do **conjunto completo**, antes da CV supervisionada. A avaliação mede a generalização do *imitador supervisionado* desses rótulos dentro do conjunto de dados existente, mas não avalia a estabilidade de uma partição reestimada em bases novas.
 3. **Curvas com um único sorteio por percentual:** a variação dos conjuntos de teste e os tamanhos diferentes permitem oscilações amostrais. Repetições adicionais poderiam fornecer faixas de variação, mas não foram exigidas explicitamente na letra (d).
-4. **Escolhas de implementação:** o gaussiano emprega regularização da covariância em vez da forma ML estrita quando necessário; a janela Parzen compartilha um `h` entre as 57 dimensões escalonadas; ambos os detalhes são compromissos metodológicos documentados.
+4. **Escolhas de implementação:** o gaussiano utiliza **em todos os ajustes** covariância ML completa acrescida de regularização positiva selecionada pela CV interna; a janela Parzen compartilha um `h` entre as 57 dimensões escalonadas. Esses detalhes devem acompanhar a interpretação dos resultados.
 5. **Comparação entre as duas tarefas:** dois versus três rótulos, frequências de classe diferentes e rótulos produzidos por processos distintos. Diferenças nos F1 não estabelecem que uma tarefa ou partição seja intrinsecamente melhor.
 
 ## 9. Conclusões

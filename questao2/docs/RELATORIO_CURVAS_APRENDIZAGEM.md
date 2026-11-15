@@ -8,13 +8,13 @@
 
 ## Protocolo metodológico
 
-- Base: 4.601 e-mails, 57 atributos numéricos originais, `y_original` (duas classes) ou `y_double_kmeans` (três grupos obtidos via Log1p + MinMaxScaler, K*=3, H*=3).
-- Para cada proporção de treinamento *p*, uma divisão estratificada e complementar separa **p% para treinamento e (100−p)% para teste**, sem interseção e preservando as classes. O plano de aleatorização é reproduzível; os subconjuntos entre proporções não são obrigatoriamente aninhados.
+- **Base de referência:** 4.601 e-mails com 57 atributos numéricos originais; o alvo é `y_original` (duas classes) ou `y_double_kmeans` (três grupos obtidos via `log1p + MinMaxScaler`, K*=3, H*=3). A expressão «conjunto original de treinamento» do item (d) foi operacionalizada como toda a base disponível para a tarefa supervisionada, antes de fixar uma divisão externa.
+- Para cada proporção de treinamento *p* entre 5% e 95%, **uma única divisão estratificada** separa **p% dos 4.601 exemplos para treino** e **(100−p)% para teste**, sem interseção e preservando aproximadamente as frequências das classes; o sorteio usa a semente 2026. Os subconjuntos em percentuais distintos não são obrigatoriamente aninhados. A divisão é independente dos folds externos do experimento 30 × 10 e não corresponde à subdivisão de um único conjunto de nove folds externos.
 - Todos os cinco modelos usam o **mesmo treino e teste** em cada ponto da mesma variável resposta.
 - Gaussiano multivariado, k-vizinhos, Parzen e regressão logística selecionam os hiperparâmetros por **5-fold estratificado interno**, exclusivamente dentro do treinamento de cada ponto. Log1p e MinMax são reajustados dentro dos respectivos `Pipeline` de treinamento, sem pré-processamento global.
 - O voto majoritário utiliza as predições dos quatro modelos-base treinados sobre aquele subconjunto e desempata com a probabilidade a priori estimada nesse mesmo treino.
 - As curvas registram **F1 macro de treinamento (in-sample) e de teste**, bem como métricas complementares; F1 macro evita tratar a classe minoritária como irrelevante.
-- Foram salvos os hiperparâmetros e o F1 da CV interna em cada ponto, além de tamanhos de treino e teste. Arquivos de progresso são escritos atomicamente e podem ser retomados.
+- Foram salvos os hiperparâmetros e o F1 da CV interna em cada ponto, além de tamanhos de treino e teste. Arquivos de progresso são escritos atomicamente e podem ser retomados. São **38 pares de conjuntos treino/teste** (2 alvos × 19 proporções) e **190 avaliações de classificadores** (4 ajustes de modelos-base e um voto derivado por par), não 190 sorteios independentes.
 
 ## Resultados — F1 macro de teste
 
@@ -56,7 +56,7 @@ Cada célula é o F1 macro de teste no percentual indicado; **não são médias 
 
 **Lacuna treino-teste:** Para os modelos que memorizam exemplos locais, sobretudo k-vizinhos e Parzen, o F1 de treinamento pode se aproximar de 1 pela inclusão dos próprios exemplos na vizinhança/densidade. Isso é uma medida in-sample, e **não uma estimativa independente da generalização**. A inspeção conjunta das curvas de treino e teste é o instrumento apropriado para discutir esta diferença.
 
-**Limitações:** com uma divisão por proporção, as oscilações dependem do sorteio e do tamanho variável do teste. Seria possível repetir opcionalmente o estudo e traçar médias/faixas, mas isso não é condição imposta explicitamente pelo item (d). Os rótulos `y_double_kmeans` foram determinados pelo agrupamento de **toda** a Spambase na Questão 1; logo, bons escores supervisionados aqui medem a **reprodução dos rótulos construídos**, não validam novos clusters nem a qualidade semântica do agrupamento.
+**Limitações:** com uma divisão por proporção, as oscilações dependem do sorteio e do tamanho variável do teste. Como a base foi dividida novamente em cada ponto, e não se utilizou um conjunto de treinamento externo de nove folds previamente delimitado, a curva responde à interpretação operacional adotada do item (d). Seria possível repetir opcionalmente o estudo e traçar médias/faixas, mas isso não é condição imposta explicitamente pelo item (d). Os rótulos `y_double_kmeans` foram determinados pelo agrupamento de **toda** a Spambase na Questão 1; logo, bons escores supervisionados aqui medem a **reprodução dos rótulos construídos**, não validam novos clusters nem a qualidade semântica do agrupamento.
 
 ## Arquivos de evidência
 
