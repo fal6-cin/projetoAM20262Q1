@@ -1,8 +1,9 @@
 # Projeto AM 2026-2 — Spambase (Double K-means e Classificação)
 
-Repositório do projeto da disciplina **Aprendizagem de Máquina (CIn/UFPE — 2026.2)** sobre a base **Spambase** (4.601 instâncias, 57 atributos numéricos contínuos e 2 classes a priori: `non-spam` / `spam`).
+Repositório do projeto da disciplina **Aprendizagem de Máquina (IN1102 — CIn/UFPE, 2026.2)** sobre a base **Spambase** (4.601 instâncias, 57 atributos numéricos contínuos e 2 classes a priori: `non-spam` / `spam`).
 
-Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf).
+**Equipe:** Douglas Araújo Silva, Felipe Araújo de Lima e Letícia De Albuquerque S. Leitão  
+**Enunciado completo:** [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf)
 
 ---
 
@@ -26,10 +27,12 @@ Enunciado completo: [Projeto-AM-2026-2.pdf](Enunciado%20do%20Projeto/Projeto-AM-
 │   ├── dados/                           # spambase_q2.csv (escala original + y_double_kmeans) e proveniencia_q1.json
 │   ├── src/                             # Carregamento, CV 30×10 / 5-fold, métricas, Friedman/Nemenyi e 5 modelos
 │   ├── scripts/                         # Scripts CLI de execução, comparação e análise
-│   ├── tests/                           # Suíte de testes automatizados (67 casos)
+│   ├── tests/                           # Suíte de testes automatizados (67 testes)
 │   ├── resultados/                      # Métricas, predições, análise estatística e curvas de aprendizagem
 │   └── docs/                            # Relatórios e auditorias da Questão 2
-├── entrega/
+├── entrega/                             # Artefatos finais consolidados
+│   ├── relatorio_final_projeto_am_2026_2.{md,tex,pdf}   # Relatório final consolidado (Q1 + Q2)
+│   ├── slides/                          # Apresentação Beamer/PDF (apresentacao_projeto_am_2026_2.{tex,pdf}) e roteiro
 │   └── README_entrega.md                # Checklist dos arquivos individuais para o Google Classroom
 └── requirements.txt                     # Dependências unificadas do projeto (Q1, Q2, notebooks e testes)
 ```
@@ -70,6 +73,5 @@ pytest questao1/tests questao2/tests
 
 ## Entrega (18/11/2026)
 
-* **Google Classroom:** enviar **arquivos individuais** (código-fonte, executável se houver, slides e relatório) — **não compactar em `.zip`**.
-* **Apresentação:** limite rigoroso de **10 minutos** (incluindo discussão), com presença e participação obrigatórias de toda a equipe.
-* Consulte o checklist em [entrega/README_entrega.md](entrega/README_entrega.md).
+* **Relatório final:** [relatorio_final_projeto_am_2026_2.pdf](entrega/relatorio_final_projeto_am_2026_2.pdf) ([Markdown](entrega/relatorio_final_projeto_am_2026_2.md) | [LaTeX](entrega/relatorio_final_projeto_am_2026_2.tex))
+* **Apresentação:** [apresentacao_projeto_am_2026_2.pdf](entrega/slides/apresentacao_projeto_am_2026_2.pdf) ([LaTeX](entrega/slides/apresentacao_projeto_am_2026_2.tex) | [Roteiro](entrega/slides/roteiro_apresentacao_projeto_am_2026_2.md))

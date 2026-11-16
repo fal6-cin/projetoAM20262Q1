@@ -1,8 +1,6 @@
 # Checklist de Entrega — Projeto AM 2026-2 (18/11/2026)
 
 > **Regra obrigatória do enunciado ([`Projeto-AM-2026-2.pdf`](../Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf)):**  
-> **NÃO compactar em `.zip`!** Enviar **todos os arquivos individualmente** no Google Classroom.  
-> **Apresentação:** quarta-feira, **18/11/2026**, limite rigoroso de **10 minutos** (incluindo discussão), com presença e participação obrigatórias de toda a equipe (Douglas Araújo Silva, Felipe Araújo de Lima e Letícia De Albuquerque S. Leitão).
 
 ## 1. Relatório do Projeto
 
@@ -35,4 +33,6 @@
 
 ## 3. Slides da Apresentação
 
-- Slides a preparar e anexar individualmente no Google Classroom junto ao código-fonte e ao relatório em **18/11/2026**.
+- [`slides/apresentacao_projeto_am_2026_2.pdf`](slides/apresentacao_projeto_am_2026_2.pdf) — Versão compilada em PDF da apresentação (16 slides).
+- [`slides/apresentacao_projeto_am_2026_2.tex`](slides/apresentacao_projeto_am_2026_2.tex) — Código-fonte Beamer/LaTeX da apresentação.
+- [`slides/roteiro_apresentacao_projeto_am_2026_2.md`](slides/roteiro_apresentacao_projeto_am_2026_2.md) — Roteiro de apresentação e divisão de falas da equipe.
