@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,11pt]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -8,6 +8,7 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\linespread{1.05}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -26,13 +27,6 @@
   pdftitle={Relatorio Final do Projeto - Aprendizagem de Maquina (IN1102)},
   pdfauthor={Douglas Araujo Silva, Felipe Araujo de Lima, Leticia De Albuquerque S. Leitao}
 ]{hyperref}
-
-% Deixar o traço da fonte um pouco mais escuro para facilitar a leitura em tela
-\makeatletter
-\def\@oddhead{\pdfliteral{2 Tr 0.15 w}\hfil}
-\def\@evenhead{\pdfliteral{2 Tr 0.15 w}\hfil}
-\makeatother
-\AddToHook{begindocument/end}{\pdfliteral{2 Tr 0.15 w}}
 
 \captionsetup{font=small,labelfont=bf,hypcap=false}
 \setlength{\parindent}{0pt}
@@ -88,10 +82,8 @@
   \vspace{0.2em}
   {\normalsize\bfseries 2026.2\par}
 \end{center}
-\noindent\rule{\linewidth}{0.7pt}
-\vspace{0.4em}
-
-
+\noindent\rule{\linewidth}{0.7pt}\par
+\vspace{-1.2em}
 \phantomsection
 \section*{Resumo}
 \addcontentsline{toc}{section}{Resumo}
@@ -726,15 +718,6 @@ De modo transparente e conforme boas práticas de experimentação empírica, de
 \end{enumerate}
 \end{itemize}
 
-\subsection{Diretrizes de Entrega e Apresentação (18/11/2026)}\label{sec:3-3-diretrizes-de-entrega-e-apresentacao-18-11-2026}
-
-
-Conforme as instruções finais de \texttt{Projeto-AM-2026-2.pdf}:
-\begin{itemize}[leftmargin=1.5em, itemsep=0.25em, topsep=0.25em]
-  \item \textbf{Data da entrega e apresentação:} quarta-feira, \textbf{18/11/2026} (tempo rigoroso de \textbf{10 minutos} por equipe, incluindo discussão, com presença e participação obrigatórias de todos os membros).
-  \item \textbf{Formato de envio no Google Classroom:} enviar \textbf{arquivos individuais} (código-fonte, executável se houver, slides de apresentação e relatório final); \textbf{é estritamente proibido compactar em \texttt{.zip}}.
-\end{itemize}
-
 \section{Reprodutibilidade}\label{sec:4-reprodutibilidade}
 
 
@@ -781,17 +764,10 @@ python -m questao2.scripts.rodar_curvas --repeticoes 1 --apenas-consolidar
 
 
 \begin{enumerate}[leftmargin=1.5em, itemsep=0.25em, topsep=0.25em]
-  \item \textbf{Carvalho, F. A. T. de.} \textit{Projeto AM 2026-2 --- Especificação do Projeto de Aprendizagem de Máquina}. Centro de Informática (CIn / UFPE), Recife, 2026. Documento local: \texttt{Projeto-AM-2026-2.pdf}.
-  \item \textbf{UCI Machine Learning Repository.} \textit{Spambase Dataset}. Doadores originais: Hewlett-Packard Labs (Hopkins et al.). URL oficial citada no enunciado: \url{https://archive.ics.uci.edu/dataset/94/spambase}. Metadados locais: \texttt{spambase.names}.
-  \item \textbf{Carvalho, F. A. T. de.} \textit{Notas de aula da disciplina Aprendizagem de Máquina (IN1102 --- CIn/UFPE)}: \textit{Double K-means}, \textit{Técnicas Não Paramétricas (Janela de Parzen e k-NN Bayesiano)} e \textit{Instance-Based Learning} (referenciadas nos cabeçalhos dos módulos \texttt{double\_\allowbreak kmeans.py}, \texttt{bayes\_\allowbreak parzen.py} e \texttt{bayes\_\allowbreak knn.py}).
-  \item \textbf{Documentação técnica auxiliar do repositório:}
-\begin{itemize}[leftmargin=1.5em, itemsep=0.25em, topsep=0.25em]
-  \item \texttt{questao1/\allowbreak docs/\allowbreak relatorio\_\allowbreak questao1\_\allowbreak double\_\allowbreak kmeans.md}
-  \item \texttt{questao2/\allowbreak docs/\allowbreak RELATORIO\_\allowbreak FINAL\_\allowbreak QUESTAO2.md}
-  \item \texttt{questao2/\allowbreak docs/\allowbreak AUDITORIA\_\allowbreak 30x10.md}
-  \item \texttt{questao2/\allowbreak docs/\allowbreak RELATORIO\_\allowbreak CURVAS\_\allowbreak APRENDIZAGEM.md}
-  \item \texttt{questao2/\allowbreak docs/\allowbreak ANALISE\_\allowbreak COMPARACAO\_\allowbreak PREPROCESSAMENTO\_\allowbreak QUESTAO2.md}
-\end{itemize}
+  \item \textbf{Carvalho, F. A. T. de (2026).} \textit{Notas de Aula e Especificação do Projeto --- IN1102}, CIn/UFPE.
+  \item \textbf{Hopkins, M. et al. (1999).} \textit{Spambase Dataset}. HP Labs / UCI ML Repository (\url{https://archive.ics.uci.edu/dataset/94/spambase}).
+  \item \textbf{Kittler, J., Hatef, M., Duin, R. P. W., \& Matas, J. (1998).} On combining classifiers. Vol. 20, no. 3, pp. 226--239, doi: \texttt{10.1109/34.667881}.
+  \item \textbf{Demšar, J. (2006).} Statistical Comparisons of Classifiers over Multiple Data Sets. \textit{JMLR}, 7, 1--30.
 \end{enumerate}
 
 \section{Anexos}\label{sec:6-anexos}

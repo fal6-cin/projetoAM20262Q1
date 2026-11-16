@@ -40,7 +40,6 @@ Na **Questão 2 (aprendizagem supervisionada)**, avaliaram-se cinco classificado
 - [3. Discussão](#3-discussão)
   - [3.1 Síntese Integradora dos Resultados (Q1 e Q2)](#31-síntese-integradora-dos-resultados-q1-e-q2)
   - [3.2 Ameaças à Validade](#32-ameaças-à-validade)
-  - [3.3 Diretrizes de Entrega e Apresentação (18/11/2026)](#33-diretrizes-de-entrega-e-apresentação-18112026)
 - [4. Reprodutibilidade](#4-reprodutibilidade)
 - [5. Referências](#5-referências)
 - [6. Anexos](#6-anexos)
@@ -384,14 +383,6 @@ De modo transparente e conforme boas práticas de experimentação empírica, de
 
 ---
 
-### 3.3 Diretrizes de Entrega e Apresentação (18/11/2026)
-
-Conforme as instruções finais de [`Projeto-AM-2026-2.pdf`](../Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf):
-- **Data da entrega e apresentação:** quarta-feira, **18/11/2026** (tempo rigoroso de **10 minutos** por equipe, incluindo discussão, com presença e participação obrigatórias de todos os membros).
-- **Formato de envio no Google Classroom:** enviar **arquivos individuais** (código-fonte, executável se houver, slides de apresentação e relatório final); **é estritamente proibido compactar em `.zip`**.
-
----
-
 ## 4. Reprodutibilidade
 
 Todo o pipeline foi desenvolvido e validado em **Python 3.12.10** com dependências fixadas em [`requirements.txt`](../requirements.txt).
@@ -432,15 +423,10 @@ python -m questao2.scripts.rodar_curvas --repeticoes 1 --apenas-consolidar
 
 ## 5. Referências
 
-1. **Carvalho, F. A. T. de.** *Projeto AM 2026-2 — Especificação do Projeto de Aprendizagem de Máquina*. Centro de Informática (CIn / UFPE), Recife, 2026. Documento local: [`Projeto-AM-2026-2.pdf`](../Enunciado%20do%20Projeto/Projeto-AM-2026-2.pdf).
-2. **UCI Machine Learning Repository.** *Spambase Dataset*. Doadores originais: Hewlett-Packard Labs (Hopkins et al.). URL oficial citada no enunciado: <https://archive.ics.uci.edu/dataset/94/spambase>. Metadados locais: [`spambase.names`](../data/raw/spambase.names).
-3. **Carvalho, F. A. T. de.** *Notas de aula da disciplina Aprendizagem de Máquina (IN1102 — CIn/UFPE)*: *Double K-means*, *Técnicas Não Paramétricas (Janela de Parzen e k-NN Bayesiano)* e *Instance-Based Learning* (referenciadas nos cabeçalhos dos módulos [`double_kmeans.py`](../questao1/src/double_kmeans.py), [`bayes_parzen.py`](../questao2/src/modelos/bayes_parzen.py) e [`bayes_knn.py`](../questao2/src/modelos/bayes_knn.py)).
-4. **Documentação técnica auxiliar do repositório:**
-   - [`questao1/docs/relatorio_questao1_double_kmeans.md`](../questao1/docs/relatorio_questao1_double_kmeans.md)
-   - [`questao2/docs/RELATORIO_FINAL_QUESTAO2.md`](../questao2/docs/RELATORIO_FINAL_QUESTAO2.md)
-   - [`questao2/docs/AUDITORIA_30x10.md`](../questao2/docs/AUDITORIA_30x10.md)
-   - [`questao2/docs/RELATORIO_CURVAS_APRENDIZAGEM.md`](../questao2/docs/RELATORIO_CURVAS_APRENDIZAGEM.md)
-   - [`questao2/docs/ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md`](../questao2/docs/ANALISE_COMPARACAO_PREPROCESSAMENTO_QUESTAO2.md)
+1. **Carvalho, F. A. T. de (2026).** *Notas de Aula e Especificação do Projeto — IN1102*, CIn/UFPE.
+2. **Hopkins, M. et al. (1999).** *Spambase Dataset*. HP Labs / UCI ML Repository (<https://archive.ics.uci.edu/dataset/94/spambase>).
+3. **Kittler, J., Hatef, M., Duin, R. P. W., & Matas, J. (1998).** On combining classifiers. Vol. 20, no. 3, pp. 226–239, doi: `10.1109/34.667881`.
+4. **Demšar, J. (2006).** Statistical Comparisons of Classifiers over Multiple Data Sets. *JMLR*, 7, 1–30.
 
 ---
 
