@@ -3,8 +3,8 @@
 % Base: projetoAM20262Q1-main (relatório final consolidado e resultados CSV)
 % Formato inspirado no slides(1).tex: Beamer Madrid, 16:9, cores CIn/UFPE.
 % Duracao planejada: 7min30 a 8min30 de exposicao + tempo de discussao.
-% Os graficos sao referenciados diretamente em ../../../questao1 e ../../../questao2.
-% Compilar: pdflatex -interaction=nonstopmode apresentacao_spambase_decisoes.tex (2x)
+% Os graficos sao referenciados diretamente em ../../questao1 e ../../questao2.
+% Compilar: pdflatex -interaction=nonstopmode apresentacao_projeto_am_2026_2.tex (2x)
 %
 % Sugestao de participacao:
 % Douglas: Q1 metodo; Felipe: Q1 resultados / Q2 protocolo; Leticia: Q2 resultados / estatistica. Ajustar para que todos participem.
@@ -104,7 +104,38 @@
 \centering\small\color{cinzaescuro}Decisões, evidências e conclusões
 \end{frame}
 
-% 02 - 00:35 - Como abordar o projeto
+% 02 - 00:25 - Agenda
+\begin{frame}[t]{Agenda da apresentação}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{simplebox}
+\small\textbf{\color{cinazul}Parte 1 | Questão 1 (Double K-means)}\par\vspace{1mm}
+\footnotesize
+\begin{enumerate}\setlength\itemsep{1.1mm}
+\item Visão geral e perguntas do projeto.
+\item Problemas do Double K-means na base e diagnóstico da Silhueta.
+\item Necessidade de pré-processamento, comparação das 7 estratégias e grupos encontrados.
+\end{enumerate}
+\end{simplebox}
+\column{.48\textwidth}
+\begin{simplebox}
+\small\textbf{\color{verdeescuro}Parte 2 | Questão 2 (Classificação)}\par\vspace{1mm}
+\footnotesize
+\begin{enumerate}\setlength\itemsep{1.1mm}
+\setcounter{enumi}{3}
+\item Protocolo de validação sem vazamento e escolha dos 5 classificadores.
+\item Resultados nos dois alvos, testes estatísticos e curvas de aprendizagem.
+\item Conclusões principais do projeto.
+\end{enumerate}
+\end{simplebox}
+\end{columns}
+\vspace{1mm}
+\begin{notabox}
+\footnotesize \textbf{Estrutura:} foco nas decisões metodológicas, nos desafios dos dados e nas evidências experimentais.
+\end{notabox}
+\end{frame}
+
+% 03 - 00:35 - Como abordar o projeto
 \begin{frame}[t]{Três perguntas orientaram o projeto}
 \vspace{1mm}
 \begin{columns}[T,onlytextwidth]
@@ -134,7 +165,37 @@ Double K-means (Q1) e classificação com 5 modelos em 2 conjuntos de rótulos (
 \end{notabox}
 \end{frame}
 
-% 03 - 00:40 - problema diagnosticado
+% 04 - 00:40 - Problemas do Double K-means na base
+\begin{frame}[t]{Q1 | Problemas do Double K-means na base Spambase}
+\small\color{cinzaescuro}As características da base dificultam a otimização direta do Double K-means.
+\vspace{1mm}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{simplebox}
+\textbf{Características críticas da base}\par\vspace{1mm}
+\footnotesize
+\begin{itemize}\setlength\itemsep{1.2mm}
+\item \textbf{Escalas discrepantes:} 54 frequências em $[0,100]\%$ vs.\ 3 de maiúsculas (até $15.841$).
+\item \textbf{Alta esparsidade:} mais de $80\%$ de zeros nas frequências de palavras e caracteres.
+\item \textbf{Caudas longas:} termos raros (ex.: HP Labs) têm picos extremos em poucos e-mails.
+\end{itemize}
+\end{simplebox}
+\column{.48\textwidth}
+\begin{simplebox}
+\textbf{Limitações do Double K-means}\par\vspace{1mm}
+\footnotesize
+\begin{itemize}\setlength\itemsep{1.2mm}
+\item Resume cada bloco por uma \textbf{única média $g_{kh}$} na função objetivo quadrática $W$.
+\item Variáveis de maior amplitude ou com picos extremos dominam a soma $W$.
+\item Para reduzir $W$, o método \textbf{isola microclusters de outliers} em vez de separar as classes.
+\end{itemize}
+\end{simplebox}
+\end{columns}
+\vspace{1mm}
+{\footnotesize\color{laranja}\textbf{Consequência:} o algoritmo exige que variáveis de um mesmo bloco tenham escalas compatíveis e caudas controladas.}
+\end{frame}
+
+% 05 - 00:40 - problema diagnosticado
 \begin{frame}[t]{Decisão 1 | Investigar além da melhor Silhueta}
 \small\color{cinzaescuro}A padronização z-score produziu um resultado aparentemente forte --- mas a partição era inadequada para representar as classes conhecidas.
 \vspace{2mm}
@@ -157,7 +218,64 @@ Double K-means (Q1) e classificação com 5 modelos em 2 conjuntos de rótulos (
 {\footnotesize\color{laranja}\textbf{Aprendizado:} Silhueta alta não garante utilidade para o problema investigado.}
 \end{frame}
 
-% 04 - 00:50 - tratamento e critérios
+% 06 - 00:40 - Necessidade de pre-processamento
+\begin{frame}[t]{Q1 | Necessidade de pré-processamento para o Double K-means}
+\small\color{cinzaescuro}Para corrigir as limitações do método nessa base, é preciso tratar assimetria e escala juntas.
+\vspace{1mm}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{simplebox}
+\textbf{Por que ajustes simples falharam?}\par\vspace{1mm}
+\footnotesize
+\begin{itemize}\setlength\itemsep{1.2mm}
+\item \textbf{Z-score puro:} padroniza a variância, mas mantém picos extremos ($z > +9$ a $+50$).
+\item \textbf{Log só nas maiúsculas:} manteve o microcluster de 34 e-mails ($\text{ARI} = -0,00495$).
+\item Os picos nas palavras raras continuavam dominando a função objetivo $W$.
+\end{itemize}
+\end{simplebox}
+\column{.48\textwidth}
+\begin{simplebox}
+\textbf{O papel do pré-processamento}\par\vspace{1mm}
+\footnotesize
+\begin{itemize}\setlength\itemsep{1.2mm}
+\item \textbf{Transformação $\log(1+x)$:} comprime caudas longas em todos os atributos e preserva os zeros.
+\item \textbf{Reescala \texttt{MinMax} em $[0,1]$:} coloca as 57 variáveis no mesmo intervalo antes de agrupar.
+\item Faz com que os protótipos $g_{kh}$ reflitam padrões globais, sem descartar variáveis.
+\end{itemize}
+\end{simplebox}
+\end{columns}
+\vspace{1mm}
+{\footnotesize\color{cinazul}\textbf{Conclusão técnica:} comprimir caudas e equalizar o domínio nas 57 variáveis foi essencial para viabilizar o co-clustering.}
+\end{frame}
+
+% 07 - 00:45 - Comparacao das estrategias de pre-processamento
+\begin{frame}[t]{Q1 | Comparação das estratégias de pré-processamento}
+\small Foram avaliadas \textbf{sete representações} (900 rodadas por estratégia; 6.300 execuções válidas ao todo).
+\vspace{1.5mm}
+\par
+\scriptsize
+\renewcommand{\arraystretch}{1.08}
+\setlength{\tabcolsep}{4.5pt}
+\centering
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Estratégia testada} & $(K^*,H^*)$ & \textbf{Silhueta} & \textbf{ARI} & \textbf{Tamanhos dos grupos ($N=4.601$)} \\
+\midrule
+z-score puro (\texttt{revisada}) & $(2,2)$ & 0,6596 & $-0,00495$ & 34 / 4.567 \\
+Z-score parcial nas maiúsculas & $(2,2)$ & 0,6537 & $-0,00495$ & 4.567 / 34 \\
+Filtragem de domínio (49 var.) & $(2,1)$ & 0,2926 & $+0,13630$ & 1.129 / 3.472 \\
+Clip (p99) + log1p + z-score & $(2,1)$ & 0,1721 & $+0,12920$ & 1.372 / 3.229 \\
+Binarização ($x>0$) + z-score & $(3,3)$ & 0,2100 & $+0,26950$ & 1.344 / 3.025 / 232 \\
+Quantis uniformes & $(3,3)$ & 0,1903 & $+0,29253$ & 2.787 / 1.240 / 574 \\
+\textbf{log1p + MinMax (adotada)} & \textbf{$(3,3)$} & \textbf{0,1292} & \textbf{+0,39111} & \textbf{2.619 / 265 / 1.717} \\
+\bottomrule
+\end{tabular}
+\par
+\vspace{1.8mm}
+\begin{alertabox}\scriptsize \textbf{Transparência:} $(K^*,H^*)$ foi escolhido pela Silhueta \emph{em cada representação}; a decisão posterior de adotar \texttt{log1p + MinMax} também considerou o ARI observado. Não foi totalmente cega aos rótulos.\end{alertabox}
+\end{frame}
+
+% 07 - 00:50 - tratamento e critérios
 \begin{frame}[t]{Decisão 2 | Preservar os atributos e comprimir as caudas}
 \small Comparamos \textbf{7 representações} (6.300 execuções válidas) e adotamos \textbf{log1p + MinMax} para produzir o segundo alvo da Q2.
 \vspace{2mm}
@@ -170,7 +288,7 @@ Double K-means (Q1) e classificação com 5 modelos em 2 conjuntos de rótulos (
 \small Obteve o \textbf{maior ARI entre os vencedores por Silhueta} das sete representações.
 \end{simplebox}
 \column{.57\textwidth}
-\centering\includegraphics[width=\linewidth,height=2.9cm,keepaspectratio]{../../../questao1/resultados/log_minmax/silhouette_KH.png}
+\centering\includegraphics[width=\linewidth,height=2.9cm,keepaspectratio]{../../questao1/resultados/log_minmax/silhouette_KH.png}
 \vspace{1mm}
 \begin{notabox}\centering\small\textbf{$(K^*,H^*)=(3,3)$} \quad Sil. $=0,1292$ \quad ARI $=0,3911$\end{notabox}
 \end{columns}
@@ -178,7 +296,7 @@ Double K-means (Q1) e classificação com 5 modelos em 2 conjuntos de rótulos (
 \begin{alertabox}\scriptsize \textbf{Critério:} 100 reinícios por par; menor $W$, depois maior Silhueta dentro da representação. \textbf{Ressalva:} o ARI foi consultado depois para escolher entre representações; a decisão não foi totalmente cega aos rótulos.\end{alertabox}
 \end{frame}
 
-% 05 - 00:40 - resultado q1
+% 08 - 00:40 - resultado q1
 \begin{frame}[t]{Q1 | Que estrutura o Double K-means encontrou?}
 \begin{columns}[T,onlytextwidth]
 \column{.55\textwidth}
@@ -212,7 +330,7 @@ Grupo & Não-spam & Spam & Total\\
 \begin{alertabox}\small \textbf{Consequência:} esses três grupos passaram a ser o segundo alvo supervisionado da Questão 2 --- mantendo os mesmos 57 preditores brutos.\end{alertabox}
 \end{frame}
 
-% 06 - 00:45 - desenho q2
+% 09 - 00:45 - desenho q2
 \begin{frame}[t]{Decisão 3 | Nunca usar o teste para ajustar o modelo}
 \vspace{1mm}
 \begin{columns}[T,onlytextwidth]
@@ -239,7 +357,7 @@ box/.style={draw=cinazul!35,fill=azulclaro!23,rounded corners=2pt,text width=6.2
 \begin{notabox}\scriptsize O alvo de 3 clusters foi construído previamente sobre a base inteira: sua avaliação supervisionada mede \textbf{reprodução de uma partição fixa}, não generalização externa de novos clusters.\end{notabox}
 \end{frame}
 
-% 07 - 00:40 - modelagem
+% 10 - 00:40 - modelagem
 \begin{frame}[t]{Decisão 4 | Comparar hipóteses diferentes, com ajuste justo}
 \vspace{1mm}
 \footnotesize
@@ -260,7 +378,7 @@ Voto Majoritário & Combinar os quatro anteriores; desempate pela priori do trei
 \begin{notabox}\small \textbf{Por que assim?} A comparação não se limitou a cinco nomes: ela testou diferentes hipóteses de separação com \textbf{o mesmo protocolo e os mesmos índices de avaliação}.\end{notabox}
 \end{frame}
 
-% 08 - 00:50 - resultados principais
+% 11 - 00:50 - resultados principais
 \begin{frame}[t]{O melhor método depende do alvo a prever}
 \small \textbf{F1 macro médio} nas 30 repetições de 10 folds (barras: 0,75--1,00; maior é melhor).
 \vspace{2mm}
@@ -288,7 +406,7 @@ Voto Majoritário & Combinar os quatro anteriores; desempate pela priori do trei
 \begin{notabox}\small\textbf{Original:} Voto 0,9397 $\approx$ Parzen 0,9394 (erro: 5,71\% e 5,75\%). \textbf{Clusters:} Logística 0,9827 (erro: 0,95\%). São tarefas diferentes; os F1 não devem ser comparados entre alvos como se fossem a mesma dificuldade.\end{notabox}
 \end{frame}
 
-% 09 - 00:40 - estatistica
+% 12 - 00:40 - estatistica
 \begin{frame}[t]{Decisão 5 | Interpretar diferenças, não apenas ordenar médias}
 \vspace{1mm}
 \begin{columns}[T,onlytextwidth]
@@ -316,22 +434,22 @@ Voto Majoritário & Combinar os quatro anteriores; desempate pela priori do trei
 \small\color{cinzaescuro}Foram avaliados erro, precisão, cobertura e F1 macro, com estimativas e ICs de 95\%; tabelas detalhadas constam do relatório.
 \end{frame}
 
-% 10 - 00:40 - curvas
+% 13 - 00:40 - curvas
 \begin{frame}[t]{Curvas de aprendizagem | O que muda com mais dados?}
 \vspace{1mm}
 \begin{columns}[T,onlytextwidth]
 \column{.49\textwidth}
 \centering\small\textbf{Rótulos originais: F1 de teste}\\[1mm]
-\includegraphics[width=\linewidth,height=3.85cm,keepaspectratio]{../../../questao2/resultados/curvas_aprendizagem/graficos/y_original_f1_teste.png}
+\includegraphics[width=\linewidth,height=3.85cm,keepaspectratio]{../../questao2/resultados/curvas_aprendizagem/graficos/y_original_f1_teste.png}
 \column{.49\textwidth}
 \centering\small\textbf{Clusters: F1 de teste}\\[1mm]
-\includegraphics[width=\linewidth,height=3.85cm,keepaspectratio]{../../../questao2/resultados/curvas_aprendizagem/graficos/y_double_kmeans_f1_teste.png}
+\includegraphics[width=\linewidth,height=3.85cm,keepaspectratio]{../../questao2/resultados/curvas_aprendizagem/graficos/y_double_kmeans_f1_teste.png}
 \end{columns}
 \vspace{1mm}
 \begin{notabox}\scriptsize Treinamento de 5\% a 95\%, em passos de 5\%. As curvas completas de \textbf{treino e teste} estão no relatório. Com clusters, a Logística alcança F1 de teste 0,9050 (5\%) e 0,9936 (95\%); os extremos têm testes menores.\end{notabox}
 \end{frame}
 
-% 11 - 00:25 - conclusoes
+% 15 - 00:25 - conclusoes
 \begin{frame}[t]{Três conclusões que defendemos}
 \vspace{1mm}
 \begin{simplebox}
@@ -347,6 +465,26 @@ Voto Majoritário & Combinar os quatro anteriores; desempate pela priori do trei
 \begin{simplebox}
 \textbf{3. O melhor F1 depende do alvo.}\par
 \small Voto/Parzen nas classes originais; Logística na reprodução dos clusters. Testes exploratórios e natureza transdutiva exigem cautela.
+\end{simplebox}
+\end{frame}
+
+% 16 - Encerramento e referencias
+\begin{frame}[t]{Obrigado!}
+\begin{notabox}[top=1.2mm,bottom=1.2mm,before skip=1mm,after skip=1.5mm]
+\centering
+{\normalsize\bfseries\color{cinazul}Perguntas?}\par\vspace{0.8mm}
+\scriptsize \textbf{Repositório:} \texttt{https://github.com/fal6-cin/projetoAM20262Q1}\par\vspace{0.6mm}
+\scriptsize \textbf{Contato:} Douglas Araújo Silva (\texttt{das7@cin.ufpe.br}), Felipe Araújo de Lima (\texttt{fal6@cin.ufpe.br}), Letícia De Albuquerque S. Leitão (\texttt{lasl@cin.ufpe.br})
+\end{notabox}
+\begin{simplebox}[top=1.2mm,bottom=1.2mm,before skip=1mm,after skip=0mm]
+\footnotesize\textbf{Referências principais}\par\vspace{0.6mm}
+\scriptsize
+\begin{enumerate}\setlength\itemsep{0.6mm}
+\item \textbf{Carvalho, F. A. T. de (2026).} \emph{Notas de Aula e Especificação do Projeto — IN1102}, CIn/UFPE.
+\item \textbf{Hopkins, M. et al. (1999).} \emph{Spambase Dataset}. HP Labs / UCI ML Repository (\texttt{archive.ics.uci.edu/dataset/94/spambase}).
+\item \textbf{Kittler, J., Hatef, M., Duin, R. P. W., \& Matas, J. (1998).} On combining classifiers. Vol. 20, no. 3, pp. 226--239, doi: \texttt{10.1109/34.667881}.
+\item \textbf{Dem\v{s}ar, J. (2006).} Statistical Comparisons of Classifiers over Multiple Data Sets. \emph{JMLR}, 7, 1--30.
+\end{enumerate}
 \end{simplebox}
 \end{frame}
 
