@@ -130,6 +130,18 @@ Conforme o protocolo não supervisionado implementado em [`questao1/src/experime
 
 Como o enunciado não fixa uma transformação prévia obrigatória para o Double K-means, conduziu-se uma investigação complementar de sensibilidade ao pré-processamento em [`questao1/src/preprocessamentos.py`](../questao1/src/preprocessamentos.py) comparando a linha de base (`revisada`, com `StandardScaler` puro) e seis estratégias alternativas sob exatamente a mesma grade, sementes e critério de seleção ($900$ execuções válidas por estratégia; $6.300$ ao todo).
 
+**Hipóteses e fundamentação conceitual da escolha das 7 estratégias:** considerando que o Double K-means resume cada bloco $(C_k, D_h)$ por uma única média escalar $g_{kh}$ sob perda quadrática $W$, o conjunto foi delineado como um experimento diagnóstico progressivo para dados não negativos, esparsos ($>80\%$ zeros) e de cauda pesada:
+
+1. **Linha de base linear (`revisada` — `StandardScaler` puro):** padroniza média zero e variância unitária, mas preserva a assimetria positiva, gerando escores $z$ extremos (até $+50,99$ nas maiúsculas e $+14,30$ em termos raros) que dominam $W$.
+2. **Duas estratégias diagnósticas de causa (ablação):**
+   - `tratamento_diferenciado_runs` (`log1p` apenas nas $3$ maiúsculas + `StandardScaler`): testa se o isolamento de *outliers* decorria somente da ordem de grandeza das sequências de maiúsculas frente às frequências percentuais.
+   - `filtragem_dominio` (remoção de $8$ termos específicos + `StandardScaler`): testa a sensibilidade da partição ao subconjunto lexical raro associado ao contexto HP Labs, avaliando o custo de descartar atributos originais.
+3. **Quatro famílias de correção preservando os $57$ atributos:**
+   - `binarizacao` ($x > 0$ nas $54$ frequências + `log1p` nas $3$ maiúsculas + `StandardScaler`): suprime o efeito de cauda nas frequências mantendo apenas presença/ausência de termos.
+   - `clip_log_standard` (truncamento no quantil $99\%$ + `log1p` + `StandardScaler`): aplica contenção explícita de extremos (*winsorization*) antes da compressão logarítmica e da padronização.
+   - `quantile_uniform` (`QuantileTransformer` uniforme): mapeamento não paramétrico via distribuição empírica acumulada para $[0,1]$, neutralizando caudas extremas ao custo de alterar distâncias relativas em variáveis esparsas.
+   - `log_minmax` (`log1p` + `MinMaxScaler`): aplica compressão monotônica suave das caudas preservando os zeros ($0 \mapsto 0$) e confina todas as $57$ variáveis em $[0, 1]$, assegurando comensurabilidade dos protótipos $g_{kh}$ sem truncar ou descartar atributos.
+
 | Estratégia | Pré-processamento Aplicado | Par $(K^*, H^*)$ | Silhueta Euclidiana | Melhor $W$ | Melhor Seed | ARI (vs `y_original`) | Tamanhos dos Clusters ($N=4.601$) | Diagnóstico Metodológico |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :--- |
 | **`revisada`** *(Linha de base)* | `StandardScaler` puro global ($57$ atributos) | $(2, 2)$ | **0,659631** | 244.486,70 | 22042 | **−0,004950** | 34 / 4.567 | Isola microcluster de 34 *non-spam* por vocabulário técnico específico; Silhueta artificialmente inflada. |

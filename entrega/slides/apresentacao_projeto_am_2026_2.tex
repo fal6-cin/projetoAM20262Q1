@@ -248,7 +248,38 @@ Double K-means (Q1) e classificação com 5 modelos em 2 conjuntos de rótulos (
 {\footnotesize\color{cinazul}\textbf{Conclusão técnica:} comprimir caudas e equalizar o domínio nas 57 variáveis foi essencial para viabilizar o co-clustering.}
 \end{frame}
 
-% 07 - 00:45 - Comparacao das estrategias de pre-processamento
+% 07 - 00:35 - Hipoteses das 7 estrategias
+\begin{frame}[t]{Q1 | Hipóteses por trás das 7 estratégias testadas}
+\small\color{cinzaescuro}As representações formam um experimento diagnóstico progressivo sobre os desafios da base.
+\vspace{1mm}
+\begin{columns}[T,onlytextwidth]
+\column{.48\textwidth}
+\begin{simplebox}
+\footnotesize\textbf{\color{cinazul}Base e ablações diagnósticas (3)}\par\vspace{0.8mm}
+\scriptsize
+\begin{itemize}\setlength\itemsep{1.1mm}
+\item \textbf{\texttt{revisada} (linha de base):} \texttt{StandardScaler} puro; expõe o impacto das caudas pesadas em $W$.
+\item \textbf{Z-score parcial (maiúsculas):} \texttt{log1p} só nas 3 maiúsculas; testa se apenas sua escala gerava o microcluster.
+\item \textbf{Filtragem de domínio:} remove 8 termos da HP Labs; testa a sensibilidade ao vocabulário raro.
+\end{itemize}
+\end{simplebox}
+\column{.48\textwidth}
+\begin{simplebox}
+\footnotesize\textbf{\color{verdeescuro}Famílias preservando 57 atributos (4)}\par\vspace{0.8mm}
+\scriptsize
+\begin{itemize}\setlength\itemsep{0.9mm}
+\item \textbf{Binarização ($x>0$):} mantém só presença/ausência nas frequências.
+\item \textbf{Clip p99 + \texttt{log1p} + z-score:} contém \emph{outliers} por truncamento explícito.
+\item \textbf{Quantis uniformes:} força distribuição uniforme em $[0,1]$ via ECDF.
+\item \textbf{\texttt{log1p + MinMax}:} comprime caudas ($0 \mapsto 0$) e equaliza o domínio $[0,1]^{57}$.
+\end{itemize}
+\end{simplebox}
+\end{columns}
+\vspace{1mm}
+\begin{notabox}\scriptsize \textbf{Critério do desenho:} isolar a causa da falha e cobrir famílias clássicas de correção mantendo o custo em 900 rodadas/estratégia.\end{notabox}
+\end{frame}
+
+% 08 - 00:40 - Comparacao das estrategias de pre-processamento
 \begin{frame}[t]{Q1 | Comparação das estratégias de pré-processamento}
 \small Foram avaliadas \textbf{sete representações} (900 rodadas por estratégia; 6.300 execuções válidas ao todo).
 \vspace{1.5mm}

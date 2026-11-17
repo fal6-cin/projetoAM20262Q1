@@ -11,17 +11,18 @@
 | 3. Três perguntas | 0:25 | O desafio combina representação, avaliação controlada e interpretação. |
 | 4. Problemas do Double K-means na base | 0:40 | Escalas muito diferentes, esparsidade (>80% zeros) e caudas longas levam a perda quadrática $W$ (com média única $g_{kh}$ por bloco) a isolar outliers. |
 | 5. Diagnóstico da Silhueta | 0:40 | O z-score deu Silhueta 0,6596, mas ARI quase zero: microcluster de 34 e-mails definido por termos técnicos raros. |
-| 6. Necessidade de pré-processamento | 0:35 | Z-score puro ou log só nas maiúsculas mantêm o microcluster de 34 e-mails. É preciso comprimir caudas (`log1p`) e equalizar escala (`MinMax`) nas 57 variáveis. |
-| 7. Comparação das 7 estratégias | 0:40 | Tabela comparativa das 7 representações (6.300 execuções válidas): $(K^*,H^*)$, Silhueta, ARI e tamanhos dos grupos encontrados. |
-| 8. Representação escolhida | 0:40 | `log1p + MinMax` preserva os 57 atributos e gerou (K,H)=(3,3). O ARI informou a escolha *entre representações*, não o algoritmo em si. |
-| 9. O que os clusters mostram | 0:35 | Descrever os três grupos e a concordância parcial com as classes conhecidas (ARI 0,3911). |
-| 10. Validação aninhada | 0:40 | Justificar 30 × 10 folds externos, ajuste 5-folds interno, pipeline e métricas macro. Diferenciar reprodução dos clusters de generalização externa. |
-| 11. Escolhas de modelos | 0:35 | Mostrar que as cinco abordagens testam hipóteses diferentes; cada uma teve seleção de parâmetros apropriada. |
-| 12. Resultados nos dois alvos | 0:45 | Voto e Parzen quase empatam no original; Logística lidera pontualmente ao reproduzir clusters. Não comparar F1 entre tarefas como se fossem equivalentes. |
-| 13. Comparações estatísticas | 0:35 | Friedman detecta diferenças globais, mas Nemenyi não diferencia Voto/Parzen nem Logística/Voto no F1; ICs/testes são exploratórios. |
-| 14. Curvas de aprendizagem | 0:35 | Destacar como o desempenho varia com a quantidade de dados e a limitação de testes menores nos extremos. |
-| 15. Conclusões | 0:25 | Reforçar representação, rigor do protocolo e dependência do alvo. |
-| 16. Obrigado! | 0:10 | Abertura para perguntas, link do repositório, contatos da equipe e 4 referências principais. |
+| 6. Necessidade de pré-processamento | 0:30 | Z-score puro ou log só nas maiúsculas mantêm o microcluster de 34 e-mails. É preciso comprimir caudas (`log1p`) e equalizar escala (`MinMax`) nas 57 variáveis. |
+| 7. Hipóteses das 7 estratégias | 0:35 | Lógica experimental: 1 linha de base (`revisada`), 2 ablações diagnósticas (maiúsculas vs. termos HP Labs) e 4 famílias mantendo os 57 atributos. |
+| 8. Comparação das 7 estratégias | 0:35 | Tabela comparativa das 7 representações (6.300 execuções válidas): $(K^*,H^*)$, Silhueta, ARI e tamanhos dos grupos encontrados. |
+| 9. Representação escolhida | 0:35 | `log1p + MinMax` preserva os 57 atributos e gerou (K,H)=(3,3). O ARI informou a escolha *entre representações*, não o algoritmo em si. |
+| 10. O que os clusters mostram | 0:35 | Descrever os três grupos e a concordância parcial com as classes conhecidas (ARI 0,3911). |
+| 11. Validação aninhada | 0:40 | Justificar 30 × 10 folds externos, ajuste 5-folds interno, pipeline e métricas macro. Diferenciar reprodução dos clusters de generalização externa. |
+| 12. Escolhas de modelos | 0:35 | Mostrar que as cinco abordagens testam hipóteses diferentes; cada uma teve seleção de parâmetros apropriada. |
+| 13. Resultados nos dois alvos | 0:40 | Voto e Parzen quase empatam no original; Logística lidera pontualmente ao reproduzir clusters. Não comparar F1 entre tarefas como se fossem equivalentes. |
+| 14. Comparações estatísticas | 0:35 | Friedman detecta diferenças globais, mas Nemenyi não diferencia Voto/Parzen nem Logística/Voto no F1; ICs/testes são exploratórios. |
+| 15. Curvas de aprendizagem | 0:35 | Destacar como o desempenho varia com a quantidade de dados e a limitação de testes menores nos extremos. |
+| 16. Conclusões | 0:25 | Reforçar representação, rigor do protocolo e dependência do alvo. |
+| 17. Obrigado! | 0:10 | Abertura para perguntas, link do repositório, contatos da equipe e 4 referências principais. |
 
 ## Perguntas que vale preparar
 
