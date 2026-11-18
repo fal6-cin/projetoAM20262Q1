@@ -75,3 +75,4 @@ pytest questao1/tests questao2/tests
 
 * **Relatório final:** [relatorio_final_projeto_am_2026_2.pdf](entrega/relatorio_final_projeto_am_2026_2.pdf) ([Markdown](entrega/relatorio_final_projeto_am_2026_2.md) | [LaTeX](entrega/relatorio_final_projeto_am_2026_2.tex))
 * **Apresentação:** [apresentacao_projeto_am_2026_2.pdf](entrega/slides/apresentacao_projeto_am_2026_2.pdf) ([LaTeX](entrega/slides/apresentacao_projeto_am_2026_2.tex) | [Roteiro](entrega/slides/roteiro_apresentacao_projeto_am_2026_2.md))
+* **Resultados e gráficos complementares:** [resultados_graficos_complementares_projeto_am_2026_2.pdf](https://github.com/fal6-cin/projetoAM20262Q1/blob/main/entrega/resultados_graficos_complementares_projeto_am_2026_2.pdf)
